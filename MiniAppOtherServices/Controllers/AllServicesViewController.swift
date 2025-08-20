@@ -8,68 +8,60 @@
 import UIKit
 
 class AllServicesViewController: UIViewController {
-    
-    fileprivate let titlelabel: UILabel = {
-        let label = UILabel()
-        label.text = "Other Servies"
-        label.textColor = .titleColor
-        label.font = UIFont.boldSystemFont(ofSize: 26)
-        return label
+
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    
-    fileprivate let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "With partner"
-        label.textColor = .subtitleColor
-        label.font = UIFont.systemFont(ofSize: 18)
-        return label
-    }()
-    
-    fileprivate let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "handshake")
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .systemBackground
-//        view.backgroundColor = .cyan
-        title = "All Services"
-        
-        setupHeader()
+
+        setupCollectionView()
     }
-    
-    fileprivate func setupHeader() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+    private func setupCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 140),
-            imageView.heightAnchor.constraint(equalToConstant: 140)
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        let verticalStack = UIStackView(arrangedSubviews: [titlelabel, subtitleLabel])
-        verticalStack.axis = .vertical
-        verticalStack.spacing = 8
-        verticalStack.alignment = .leading
-        
-        let horizontalStack = UIStackView(arrangedSubviews: [verticalStack, imageView])
-        horizontalStack.axis = .horizontal
-        horizontalStack.spacing = 16
-        horizontalStack.alignment = .center
-        horizontalStack.distribution = .fill
-        
-        view.addSubview(horizontalStack)
-        horizontalStack.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            horizontalStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            horizontalStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            horizontalStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
-            horizontalStack.heightAnchor.constraint(equalToConstant: 140)
-        ])
+
+        collectionView.backgroundColor = .systemBackground
+
+        collectionView.register(AllServicesHeaderCell.self, forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
-    
 }
+
+extension AllServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: AllServicesHeaderCell.identifier,
+            for: indexPath
+        ) as? AllServicesHeaderCell else {
+            return UICollectionViewCell()
+        }
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 180)
+    }
+}
+
+
 

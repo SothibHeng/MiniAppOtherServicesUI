@@ -80,7 +80,7 @@ class OtherServicesViewController: UIViewController {
         ServiceModel(name: "Ali Express", logo: "ali-express", url: "https://www.aliexpress.com/")
     ]
     
-    fileprivate lazy var wrapConllectionView: UICollectionView = {
+    fileprivate lazy var wrapCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
@@ -90,30 +90,33 @@ class OtherServicesViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
+        
+        collectionView.register(OtherServicesSectionHeaderCell.self,
+                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: OtherServicesSectionHeaderCell.identifier)
 
         collectionView.register(BannerContainerCell.self,  forCellWithReuseIdentifier: BannerContainerCell.identifier)
         collectionView.register(ServicesContainerCell.self, forCellWithReuseIdentifier: ServicesContainerCell.identifier)
 
-        collectionView.register(OtherServicesSectionHeaderCell.self,
-                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: OtherServicesSectionHeaderCell.identifier)
         return collectionView
     }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //        title = "Mini App Implementation"
         view.backgroundColor = .yellow
 //        view.backgroundColor = .systemBackground
-        view.addSubview(wrapConllectionView)
+        view.addSubview(wrapCollectionView)
         navigationItem.backButtonTitle = ""
-        wrapConllectionView.backgroundColor = .purple
+        wrapCollectionView.backgroundColor = .purple
         
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        wrapConllectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
+        wrapCollectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
     
     private func showService(_ service: ServiceModel) {

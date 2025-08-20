@@ -25,10 +25,14 @@ class OtherServicesSectionHeaderCell: UICollectionReusableView {
         l.textColor = .label
         return l
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        setupLayout()
+    }
+    
+    fileprivate func setupLayout() {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, arrowImageView])
         addSubview(stackView)
         stackView.spacing = 6
@@ -43,7 +47,7 @@ class OtherServicesSectionHeaderCell: UICollectionReusableView {
             arrowImageView.widthAnchor.constraint(equalToConstant: 16),
             arrowImageView.heightAnchor.constraint(equalToConstant: 16),
         ])
-
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         addGestureRecognizer(tapGesture)
     }
