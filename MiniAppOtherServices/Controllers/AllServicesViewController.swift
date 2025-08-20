@@ -36,6 +36,8 @@ class AllServicesViewController: UIViewController {
         collectionView.backgroundColor = .systemBackground
 
         collectionView.register(AllServicesHeaderCell.self, forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
+        
+        collectionView.register(AllServiceWrapperCell.self, forCellWithReuseIdentifier: AllServiceWrapperCell.identifier)
 
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -44,23 +46,42 @@ class AllServicesViewController: UIViewController {
 
 extension AllServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: AllServicesHeaderCell.identifier,
-            for: indexPath
-        ) as? AllServicesHeaderCell else {
-            return UICollectionViewCell()
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AllServicesHeaderCell.identifier,
+                for: indexPath
+            ) as! AllServicesHeaderCell
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: AllServiceWrapperCell.identifier,
+                for: indexPath
+            ) as! AllServiceWrapperCell
+            return cell
         }
-        return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 180)
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.section == 0 {
+            return CGSize(width: collectionView.frame.width, height: 180)
+        } else {
+            let remainingHeight = collectionView.frame.height - 180
+            return CGSize(width: collectionView.frame.width, height: remainingHeight)
+        }
     }
+
 }
 
 
