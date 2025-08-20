@@ -40,30 +40,36 @@ class AllServicesViewController: UIViewController {
 //        view.backgroundColor = .cyan
         title = "All Services"
         
-//        imageView.backgroundColor = .red
-        imageView.sizeSubView(size: CGSize(width: 140, height: 140))
-        
-        
-        let verticalStackView = UIStackView(arrangedSubviews: [
-            titlelabel, subtitleLabel, UIView()
-        ])
-        
-        verticalStackView.axis = .vertical
-        
-        let overallStackView = UIStackView(arrangedSubviews: [
-            verticalStackView, imageView
-        ])
-        
-        overallStackView.axis = .horizontal
-        overallStackView.spacing = 10
-        overallStackView.alignment = .center
-        
-//        overallStackView.backgroundColor = .cyan
-        
-        view.addSubview(overallStackView)
-        overallStackView.anchors(top: view.safeAreaLayoutGuide.topAnchor, topConstant: 30, leading: view.leadingAnchor, leadingConstant: 22, trailing: view.trailingAnchor, trailingConstant: 22, bottom: nil)
-        
-        overallStackView.sizeSubView(size: CGSize(width: 0, height: 180))
+        setupHeader()
     }
+    
+    fileprivate func setupHeader() {
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 140),
+            imageView.heightAnchor.constraint(equalToConstant: 140)
+        ])
+        
+        let verticalStack = UIStackView(arrangedSubviews: [titlelabel, subtitleLabel])
+        verticalStack.axis = .vertical
+        verticalStack.spacing = 8
+        verticalStack.alignment = .leading
+        
+        let horizontalStack = UIStackView(arrangedSubviews: [verticalStack, imageView])
+        horizontalStack.axis = .horizontal
+        horizontalStack.spacing = 16
+        horizontalStack.alignment = .center
+        horizontalStack.distribution = .fill
+        
+        view.addSubview(horizontalStack)
+        horizontalStack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            horizontalStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            horizontalStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            horizontalStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -22),
+            horizontalStack.heightAnchor.constraint(equalToConstant: 140)
+        ])
+    }
+    
 }
 

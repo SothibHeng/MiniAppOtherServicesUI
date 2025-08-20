@@ -106,7 +106,7 @@ class OtherServicesViewController: UIViewController {
         view.backgroundColor = .yellow
 //        view.backgroundColor = .systemBackground
         view.addSubview(wrapConllectionView)
-        
+        navigationItem.backButtonTitle = ""
         wrapConllectionView.backgroundColor = .purple
         
     }
@@ -115,15 +115,10 @@ class OtherServicesViewController: UIViewController {
         super.viewDidLayoutSubviews()
         wrapConllectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
-
-//    private func showService(_ service: ServiceModel) {
-//        guard let url = URL(string: service.url) else { return }
-//        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//    }
     
     private func showService(_ service: ServiceModel) {
         guard let url = URL(string: service.url) else { return }
-        let webVC = WebViewController(url: url)
+        let webVC = WebViewController(url: url, serviceName: service.name)
         navigationController?.pushViewController(webVC, animated: true)
     }
 }

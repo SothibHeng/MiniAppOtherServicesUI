@@ -21,7 +21,7 @@ class OtherServicesSectionHeaderCell: UICollectionReusableView {
 
     fileprivate let titleLabel: UILabel = {
         let l = UILabel()
-        l.font = .systemFont(ofSize: 26, weight: .bold)
+        l.font = .systemFont(ofSize: 24, weight: .bold)
         l.textColor = .label
         return l
     }()
@@ -40,8 +40,8 @@ class OtherServicesSectionHeaderCell: UICollectionReusableView {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             
-            arrowImageView.widthAnchor.constraint(equalToConstant: 18),
-            arrowImageView.heightAnchor.constraint(equalToConstant: 18),
+            arrowImageView.widthAnchor.constraint(equalToConstant: 16),
+            arrowImageView.heightAnchor.constraint(equalToConstant: 16),
         ])
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
