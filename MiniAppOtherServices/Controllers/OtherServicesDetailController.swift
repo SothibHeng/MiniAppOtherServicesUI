@@ -9,7 +9,7 @@ import UIKit
 
 class ServiceDetailViewController: UIViewController {
     
-    private let service: ServiceModel
+    fileprivate let service: ServiceModel
     
     init(service: ServiceModel) {
         self.service = service

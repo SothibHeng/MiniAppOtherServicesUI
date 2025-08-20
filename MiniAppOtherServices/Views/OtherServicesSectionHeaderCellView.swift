@@ -1,0 +1,51 @@
+//
+//  OtherServicesSectionHeaderCellView.swift
+//  MiniAppOtherServices
+//
+//  Created by Universe on 19/8/25.
+//
+
+import UIKit
+
+final class SectionHeaderView: UICollectionReusableView {
+    static let identifier = "SectionHeaderView"
+    
+    fileprivate let arrowImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named:  "arrow")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
+    fileprivate let titleLabel: UILabel = {
+        let l = UILabel()
+        l.font = .systemFont(ofSize: 26, weight: .bold)
+        l.textColor = .label
+        return l
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        let stackView = UIStackView(arrangedSubviews: [
+            titleLabel, arrowImageView
+        ])
+        addSubview(stackView)
+        stackView.spacing = 6
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        arrowImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            
+            arrowImageView.widthAnchor.constraint(equalToConstant: 18),
+            arrowImageView.heightAnchor.constraint(equalToConstant: 18),
+        ])
+    }
+
+    func configure(title: String) { titleLabel.text = title }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+}
+

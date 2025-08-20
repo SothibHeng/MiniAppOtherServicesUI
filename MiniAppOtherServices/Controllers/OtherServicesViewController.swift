@@ -8,21 +8,66 @@
 import UIKit
 
 class OtherServicesViewController: UIViewController {
-    
-    private var banners: [BannerModel] = [
-        BannerModel(image: UIImage(named: "bbc-new")!, size: CGSize(width: 120, height: 80)),
-        BannerModel(image: UIImage(named: "duolingo")!, size: CGSize(width: 160, height: 120)),
-        BannerModel(image: UIImage(named: "imbd")!, size: CGSize(width: 150, height: 80)),
-        BannerModel(image: UIImage(named: "coursera")!, size: CGSize(width: 120, height: 120)),
-        BannerModel(image: UIImage(named: "khan-academy")!, size: CGSize(width: 140, height: 140)),
-        BannerModel(image: UIImage(named: "twitch")!, size: CGSize(width: 70, height: 70)),
-        BannerModel(image: UIImage(named: "disney")!, size: CGSize(width: 120, height: 80)),
-        BannerModel(image: UIImage(named: "etsy")!, size: CGSize(width: 80, height: 80)),
-        BannerModel(image: UIImage(named: "reuters")!, size: CGSize(width: 120, height: 60)),
-        BannerModel(image: UIImage(named: "ali-express")!, size: CGSize(width: 160, height: 120))
+
+    private enum Section: Int, CaseIterable {
+        case banner
+        case services
+    }
+
+    fileprivate var banners: [BannerModel] = [
+        BannerModel(
+            image: UIImage(named: "bbc-new")!,
+            size: .init(width: 120, height: 80),
+            backgroundColor: .bbcNew
+        ),
+        BannerModel(image: UIImage(
+            named: "duolingo")!,
+            size: .init(width: 110, height: 110
+        ),
+            backgroundColor: .duolingo),
+        BannerModel(
+            image: UIImage(named: "imbd")!,
+            size: .init(width: 150, height: 70),
+            backgroundColor: .imbd
+        ),
+        BannerModel(
+            image: UIImage(named: "coursera")!,
+            size: .init(width: 110, height: 90),
+            backgroundColor: .coursera
+        ),
+        BannerModel(
+            image: UIImage(named: "khan-academy")!,
+            size: .init(width: 120, height: 90),
+            backgroundColor: .khanAcedemy
+        ),
+        BannerModel(
+            image: UIImage(named: "twitch")!,
+            size: .init(width: 120, height: 100),
+            backgroundColor: .twitch
+        ),
+        BannerModel(
+            image: UIImage(named: "disney")!,
+            size: .init(width: 130, height: 90),
+            backgroundColor: .disney
+        ),
+        BannerModel(
+            image: UIImage(named: "etsy")!,
+            size: .init(width: 110, height: 80),
+            backgroundColor: .white
+        ),
+        BannerModel(
+            image: UIImage(named: "reuters")!,
+            size: .init(width: 120, height: 70),
+            backgroundColor: .reuters
+        ),
+        BannerModel(
+            image: UIImage(named: "ali-express")!,
+            size: .init(width: 140, height: 80),
+            backgroundColor: .white
+        )
     ]
-    
-    private var services: [ServiceModel] = [
+
+    fileprivate var services: [ServiceModel] = [
         ServiceModel(name: "BBC New", icon: "bbc-new"),
         ServiceModel(name: "Duolingo", icon: "duolingo"),
         ServiceModel(name: "IMBD", icon: "imbd"),
@@ -32,113 +77,125 @@ class OtherServicesViewController: UIViewController {
         ServiceModel(name: "Disney", icon: "disney"),
         ServiceModel(name: "Etsy", icon: "etsy"),
         ServiceModel(name: "Reuters", icon: "reuters"),
-        ServiceModel(name: "Ali Express", icon: "ali-express"),
+        ServiceModel(name: "Ali Express", icon: "ali-express")
     ]
     
-    // Banner CollectionView
-    private let bannerCollection: UICollectionView = {
+    fileprivate lazy var wrapConllectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.isPagingEnabled = true
-        return cv
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 16
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .systemBackground
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.alwaysBounceVertical = true
+
+        collectionView.register(BannerContainerCell.self,  forCellWithReuseIdentifier: BannerContainerCell.identifier)
+        collectionView.register(ServicesContainerCell.self, forCellWithReuseIdentifier: ServicesContainerCell.identifier)
+
+        collectionView.register(SectionHeaderView.self,
+                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: SectionHeaderView.identifier)
+        return collectionView
     }()
-    
-    private let pageControl: UIPageControl = {
-        let pc = UIPageControl()
-        pc.currentPage = 0
-        return pc
-    }()
-    
-    // Services CollectionView
-    private let serviceCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.showsHorizontalScrollIndicator = false
-        return cv
-    }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .cyan
+        title = "Mini App Implementation"
+//        view.backgroundColor = .yellow
         view.backgroundColor = .systemBackground
-        title = "Other Services"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
+        view.addSubview(wrapConllectionView)
         
-        // Banner setup
-        bannerCollection.register(BannerCellView.self, forCellWithReuseIdentifier: BannerCellView.identifier)
-        bannerCollection.delegate = self
-        bannerCollection.dataSource = self
-        view.addSubview(bannerCollection)
-        view.addSubview(pageControl)
-        pageControl.numberOfPages = banners.count
-        
-        // Services setup
-        serviceCollection.register(OtherServicesCellView.self, forCellWithReuseIdentifier: OtherServicesCellView.identifier)
-        serviceCollection.delegate = self
-        serviceCollection.dataSource = self
-        view.addSubview(serviceCollection)
+//        wrapConllectionView.backgroundColor = .purple
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        let safe = view.safeAreaInsets
-        bannerCollection.frame = CGRect(x: 0, y: safe.top + 10, width: view.frame.size.width, height: 200)
-        pageControl.frame = CGRect(x: 0, y: bannerCollection.frame.maxY - 30, width: view.frame.size.width, height: 20)
-        serviceCollection.frame = CGRect(x: 0, y: bannerCollection.frame.maxY + 40, width: view.frame.size.width, height: 100)
+        wrapConllectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
+    }
+
+    private func showService(_ service: ServiceModel) {
+        let vc = ServiceDetailViewController(service: service)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-// MARK: - CollectionView Delegates
-extension OtherServicesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension OtherServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+        let section = Section(rawValue: indexPath.section)!
+        let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: SectionHeaderView.identifier,
+            for: indexPath
+        ) as! SectionHeaderView
+
+        switch section {
+        case .banner:
+            header.configure(title: "Other Services")
+        case .services:
+            header.configure(title: "")
+        }
+        return header
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let width = collectionView.bounds.width
+        switch Section(rawValue: section)! {
+        case .banner:
+            return CGSize(width: width, height: 56)
+        case .services:
+            return .zero 
+        }
+    }
+
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        Section.allCases.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == bannerCollection {
-            return banners.count
-        } else {
-            return services.count
-        }
+        return 1
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == bannerCollection {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCellView.identifier, for: indexPath) as! BannerCellView
-            cell.configure(banner: banners[indexPath.row])
+        let section = Section(rawValue: indexPath.section)!
+
+        switch section {
+        case .banner:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerContainerCell.identifier, for: indexPath) as! BannerContainerCell
+            cell.configure(with: banners)
             return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherServicesCellView.identifier, for: indexPath) as! OtherServicesCellView
-            cell.configure(service: services[indexPath.row])
+
+        case .services:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ServicesContainerCell.identifier, for: indexPath) as! ServicesContainerCell
+            cell.configure(with: services)
+            cell.onSelectService = { [weak self] service in
+                self?.showService(service)
+            }
             return cell
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == serviceCollection {
-            let service = services[indexPath.row]
-            let vc = ServiceDetailViewController(service: service)
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == bannerCollection {
-            guard scrollView.frame.size.width > 0 else { return }
-            let page = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
-            pageControl.currentPage = page
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == bannerCollection {
-            return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+
+    func collectionView(_ collectionView: UICollectionView, layout layoutObj: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width
+
+        if indexPath.section == Section.banner.rawValue {
+            return CGSize(width: width, height: 224)
         } else {
-            return CGSize(width: 80, height: 80)
+            return CGSize(width: width, height: 110)
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout layoutObj: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: section == 0 ? 0 : 8, left: 0, bottom: 0, right: 0)
     }
 }
+
 
