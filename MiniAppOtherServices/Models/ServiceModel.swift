@@ -10,4 +10,5 @@ import Foundation
 struct ServiceModel {
     let name: String
     let logo: String
+    let url: String
 }

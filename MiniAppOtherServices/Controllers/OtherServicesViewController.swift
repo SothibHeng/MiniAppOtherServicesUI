@@ -68,16 +68,16 @@ class OtherServicesViewController: UIViewController {
     ]
 
     fileprivate var services: [ServiceModel] = [
-        ServiceModel(name: "BBC New", logo: "bbc-new"),
-        ServiceModel(name: "Duolingo", logo: "duolingo"),
-        ServiceModel(name: "IMBD", logo: "imbd"),
-        ServiceModel(name: "Coursera", logo: "coursera"),
-        ServiceModel(name: "Khan Academy", logo: "khan-academy"),
-        ServiceModel(name: "Twitch", logo: "twitch"),
-        ServiceModel(name: "Disney", logo: "disney"),
-        ServiceModel(name: "Etsy", logo: "etsy"),
-        ServiceModel(name: "Reuters", logo: "reuters"),
-        ServiceModel(name: "Ali Express", logo: "ali-express")
+        ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
+        ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
+        ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
+        ServiceModel(name: "Coursera", logo: "coursera", url: "https://www.coursera.org/"),
+        ServiceModel(name: "Khan Academy", logo: "khan-academy", url: "https://www.khanacademy.org/"),
+        ServiceModel(name: "Twitch", logo: "twitch", url: "https://www.twitch.tv/"),
+        ServiceModel(name: "Disney", logo: "disney", url: "https://www.disneyplus.com/"),
+        ServiceModel(name: "Etsy", logo: "etsy", url: "https://www.etsy.com/"),
+        ServiceModel(name: "Reuters", logo: "reuters", url: "https://www.reuters.com/"),
+        ServiceModel(name: "Ali Express", logo: "ali-express", url: "https://www.aliexpress.com/")
     ]
     
     fileprivate lazy var wrapConllectionView: UICollectionView = {
@@ -115,9 +115,14 @@ class OtherServicesViewController: UIViewController {
         wrapConllectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
 
+//    private func showService(_ service: ServiceModel) {
+//        let viewController = ServiceDetailViewController(service: service)
+//        navigationController?.pushViewController(viewController, animated: true)
+//    }
+    
     private func showService(_ service: ServiceModel) {
-        let viewController = ServiceDetailViewController(service: service)
-        navigationController?.pushViewController(viewController, animated: true)
+        guard let url = URL(string: service.url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
 

@@ -64,6 +64,6 @@ extension ServicesContainerCell: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, layout layoutObj: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: collectionView.bounds.height) // 80x~80 item
+        return CGSize(width: 120, height: collectionView.bounds.height) 
     }
 }
