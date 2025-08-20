@@ -10,12 +10,12 @@ import UIKit
 class OtherServicesCellView: UICollectionViewCell {
     static let identifier = "OtherServicesCellView"
 
-    fileprivate let iconView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        iv.layer.cornerRadius = 12
-        iv.clipsToBounds = true
-        return iv
+    fileprivate let logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 12
+        imageView.clipsToBounds = true
+        return imageView
     }()
 
     fileprivate let titleLabel: UILabel = {
@@ -31,19 +31,19 @@ class OtherServicesCellView: UICollectionViewCell {
         
 //        backgroundColor = .cyan
 
-        contentView.addSubview(iconView)
+        contentView.addSubview(logoImageView)
         contentView.addSubview(titleLabel)
 
-        iconView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            iconView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            iconView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            iconView.widthAnchor.constraint(equalToConstant: 50),
-            iconView.heightAnchor.constraint(equalToConstant: 50),
+            logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            logoImageView.widthAnchor.constraint(equalToConstant: 50),
+            logoImageView.heightAnchor.constraint(equalToConstant: 50),
 
-            titleLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 6),
+            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 6),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -4),
@@ -52,7 +52,7 @@ class OtherServicesCellView: UICollectionViewCell {
     }
 
     func configure(service: ServiceModel) {
-        iconView.image = UIImage(named: service.icon)
+        logoImageView.image = UIImage(named: service.logo)
         titleLabel.text = service.name
     }
 

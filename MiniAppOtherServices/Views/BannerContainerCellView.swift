@@ -14,23 +14,23 @@ class BannerContainerCell: UICollectionViewCell {
     fileprivate var data: [BannerModel] = []
 
     fileprivate let pageControl: UIPageControl = {
-        let pc = UIPageControl()
-        pc.hidesForSinglePage = true
-        return pc
+        let pageControll = UIPageControl()
+        pageControll.hidesForSinglePage = true
+        return pageControll
     }()
 
     fileprivate lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.isPagingEnabled = true
-        cv.showsHorizontalScrollIndicator = false
-        cv.backgroundColor = .clear
-        cv.dataSource = self
-        cv.delegate = self
-        cv.register(BannerCellView.self, forCellWithReuseIdentifier: BannerCellView.identifier)
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(BannerCellView.self, forCellWithReuseIdentifier: BannerCellView.identifier)
+        return collectionView
     }()
 
     override init(frame: CGRect) {

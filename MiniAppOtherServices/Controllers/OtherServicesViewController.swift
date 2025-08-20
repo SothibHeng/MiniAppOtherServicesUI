@@ -68,16 +68,16 @@ class OtherServicesViewController: UIViewController {
     ]
 
     fileprivate var services: [ServiceModel] = [
-        ServiceModel(name: "BBC New", icon: "bbc-new"),
-        ServiceModel(name: "Duolingo", icon: "duolingo"),
-        ServiceModel(name: "IMBD", icon: "imbd"),
-        ServiceModel(name: "Coursera", icon: "coursera"),
-        ServiceModel(name: "Khan Academy", icon: "khan-academy"),
-        ServiceModel(name: "Twitch", icon: "twitch"),
-        ServiceModel(name: "Disney", icon: "disney"),
-        ServiceModel(name: "Etsy", icon: "etsy"),
-        ServiceModel(name: "Reuters", icon: "reuters"),
-        ServiceModel(name: "Ali Express", icon: "ali-express")
+        ServiceModel(name: "BBC New", logo: "bbc-new"),
+        ServiceModel(name: "Duolingo", logo: "duolingo"),
+        ServiceModel(name: "IMBD", logo: "imbd"),
+        ServiceModel(name: "Coursera", logo: "coursera"),
+        ServiceModel(name: "Khan Academy", logo: "khan-academy"),
+        ServiceModel(name: "Twitch", logo: "twitch"),
+        ServiceModel(name: "Disney", logo: "disney"),
+        ServiceModel(name: "Etsy", logo: "etsy"),
+        ServiceModel(name: "Reuters", logo: "reuters"),
+        ServiceModel(name: "Ali Express", logo: "ali-express")
     ]
     
     fileprivate lazy var wrapConllectionView: UICollectionView = {
@@ -116,8 +116,8 @@ class OtherServicesViewController: UIViewController {
     }
 
     private func showService(_ service: ServiceModel) {
-        let vc = ServiceDetailViewController(service: service)
-        navigationController?.pushViewController(vc, animated: true)
+        let viewController = ServiceDetailViewController(service: service)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

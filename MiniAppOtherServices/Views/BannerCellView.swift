@@ -11,10 +11,10 @@ class BannerCellView: UICollectionViewCell {
     static let identifier = "BannerCellView"
 
     fileprivate let logoImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        iv.clipsToBounds = true
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        return imageView
     }()
 
     fileprivate var widthConstraint: NSLayoutConstraint?

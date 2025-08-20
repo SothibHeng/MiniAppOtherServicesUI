@@ -20,13 +20,13 @@ class ServicesContainerCell: UICollectionViewCell {
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
 
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.showsHorizontalScrollIndicator = false
-        cv.backgroundColor = .clear
-        cv.dataSource = self
-        cv.delegate = self
-        cv.register(OtherServicesCellView.self, forCellWithReuseIdentifier: OtherServicesCellView.identifier)
-        return cv
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(OtherServicesCellView.self, forCellWithReuseIdentifier: OtherServicesCellView.identifier)
+        return collectionView
     }()
 
     override init(frame: CGRect) {

@@ -9,5 +9,5 @@ import Foundation
 
 struct ServiceModel {
     let name: String
-    let icon: String
+    let logo: String
 }
