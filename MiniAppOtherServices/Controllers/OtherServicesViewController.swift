@@ -1,8 +1,8 @@
 //
-//  RootController.swift
+//  OtherServicesViewController.swift
 //  MiniAppOtherServices
 //
-//  Created by Universe on 18/8/25.
+//  Created by Universe on 20/8/25.
 //
 
 import UIKit
@@ -86,7 +86,7 @@ class OtherServicesViewController: UIViewController {
         layout.minimumLineSpacing = 16
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
+//        collectionView.backgroundColor = .systemBackground
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
@@ -103,11 +103,12 @@ class OtherServicesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        title = "Mini App Implementation"
-//        view.backgroundColor = .yellow
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .yellow
+//        view.backgroundColor = .systemBackground
         view.addSubview(wrapConllectionView)
         
-//        wrapConllectionView.backgroundColor = .purple
+        wrapConllectionView.backgroundColor = .purple
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -116,13 +117,14 @@ class OtherServicesViewController: UIViewController {
     }
 
 //    private func showService(_ service: ServiceModel) {
-//        let viewController = ServiceDetailViewController(service: service)
-//        navigationController?.pushViewController(viewController, animated: true)
+//        guard let url = URL(string: service.url) else { return }
+//        UIApplication.shared.open(url, options: [:], completionHandler: nil)
 //    }
     
     private func showService(_ service: ServiceModel) {
         guard let url = URL(string: service.url) else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        let webVC = WebViewController(url: url)
+        navigationController?.pushViewController(webVC, animated: true)
     }
 }
 
@@ -143,9 +145,8 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         case .banner:
             header.configure(title: "Other Services")
             header.onTap = { [weak self] in
-                
-                let viewAllServicesViewController = ViewAllServicesViewController()
-                self?.navigationController?.pushViewController(viewAllServicesViewController, animated: true)
+                let allServicesViewController = AllServicesViewController()
+                self?.navigationController?.pushViewController(allServicesViewController, animated: true)
             }
         case .services:
             header.configure(title: "")
@@ -163,7 +164,7 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         case .banner:
             return CGSize(width: width, height: 56)
         case .services:
-            return .zero 
+            return .zero
         }
     }
 
@@ -209,5 +210,4 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         return UIEdgeInsets(top: section == 0 ? 0 : 8, left: 0, bottom: 0, right: 0)
     }
 }
-
 

@@ -76,3 +76,13 @@ extension UIColor {
     }
 }
 
+extension UIView {
+    func sizeSubView(size: CGSize) {
+        translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: size.width),
+            heightAnchor.constraint(equalToConstant: size.height)
+        ])
+    }
+}
+

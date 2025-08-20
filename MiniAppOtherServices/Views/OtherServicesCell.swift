@@ -13,7 +13,7 @@ class OtherServicesCell: UICollectionViewCell {
     fileprivate let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 16
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -29,10 +29,12 @@ class OtherServicesCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        backgroundColor = .cyan
+        backgroundColor = .cyan
 
         contentView.addSubview(logoImageView)
         contentView.addSubview(titleLabel)
+        
+        logoImageView.backgroundColor = .red
 
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -40,8 +42,8 @@ class OtherServicesCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: 50),
-            logoImageView.heightAnchor.constraint(equalToConstant: 50),
+            logoImageView.widthAnchor.constraint(equalToConstant: 74),
+            logoImageView.heightAnchor.constraint(equalToConstant: 74),
 
             titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 6),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),

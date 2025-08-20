@@ -32,7 +32,7 @@ class ServicesContainerCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        backgroundColor = .green
+        backgroundColor = .green
         
         contentView.addSubview(collectionView)
     }
@@ -64,6 +64,6 @@ extension ServicesContainerCell: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(_ collectionView: UICollectionView, layout layoutObj: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 120, height: collectionView.bounds.height) 
+        return CGSize(width: 120, height: collectionView.bounds.height)
     }
 }

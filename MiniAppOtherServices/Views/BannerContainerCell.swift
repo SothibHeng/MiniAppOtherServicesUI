@@ -36,8 +36,8 @@ class BannerContainerCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        backgroundColor = .blue
-        backgroundColor = .whiteSmoke
+        backgroundColor = .blue
+//        backgroundColor = .whiteSmoke
         
         contentView.addSubview(collectionView)
         contentView.addSubview(pageControl)
