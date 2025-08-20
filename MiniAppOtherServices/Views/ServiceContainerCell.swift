@@ -25,7 +25,7 @@ class ServicesContainerCell: UICollectionViewCell {
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(OtherServicesCellView.self, forCellWithReuseIdentifier: OtherServicesCellView.identifier)
+        collectionView.register(OtherServicesCell.self, forCellWithReuseIdentifier: OtherServicesCell.identifier)
         return collectionView
     }()
 
@@ -54,7 +54,7 @@ extension ServicesContainerCell: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { data.count }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherServicesCellView.identifier, for: indexPath) as! OtherServicesCellView
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherServicesCell.identifier, for: indexPath) as! OtherServicesCell
         cell.configure(service: data[indexPath.item])
         return cell
     }

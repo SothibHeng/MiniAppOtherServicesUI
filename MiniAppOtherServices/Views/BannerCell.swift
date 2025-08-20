@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BannerCellView: UICollectionViewCell {
+class BannerCell: UICollectionViewCell {
     static let identifier = "BannerCellView"
 
     fileprivate let logoImageView: UIImageView = {

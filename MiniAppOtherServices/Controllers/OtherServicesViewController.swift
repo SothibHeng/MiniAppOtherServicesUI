@@ -94,15 +94,15 @@ class OtherServicesViewController: UIViewController {
         collectionView.register(BannerContainerCell.self,  forCellWithReuseIdentifier: BannerContainerCell.identifier)
         collectionView.register(ServicesContainerCell.self, forCellWithReuseIdentifier: ServicesContainerCell.identifier)
 
-        collectionView.register(OtherServicesSectionHeaderCellView.self,
+        collectionView.register(OtherServicesSectionHeaderCell.self,
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: OtherServicesSectionHeaderCellView.identifier)
+                    withReuseIdentifier: OtherServicesSectionHeaderCell.identifier)
         return collectionView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Mini App Implementation"
+//        title = "Mini App Implementation"
 //        view.backgroundColor = .yellow
         view.backgroundColor = .systemBackground
         view.addSubview(wrapConllectionView)
@@ -130,18 +130,25 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         let section = Section(rawValue: indexPath.section)!
         let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
-            withReuseIdentifier: OtherServicesSectionHeaderCellView.identifier,
+            withReuseIdentifier: OtherServicesSectionHeaderCell.identifier,
             for: indexPath
-        ) as! OtherServicesSectionHeaderCellView
+        ) as! OtherServicesSectionHeaderCell
 
         switch section {
         case .banner:
             header.configure(title: "Other Services")
+            header.onTap = { [weak self] in
+                
+                let viewAllServicesViewController = ViewAllServicesViewController()
+                self?.navigationController?.pushViewController(viewAllServicesViewController, animated: true)
+            }
         case .services:
             header.configure(title: "")
+            header.onTap = nil
         }
         return header
     }
+
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,

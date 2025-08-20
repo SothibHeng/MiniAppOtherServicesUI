@@ -7,12 +7,14 @@
 
 import UIKit
 
-final class OtherServicesSectionHeaderCellView: UICollectionReusableView {
+class OtherServicesSectionHeaderCell: UICollectionReusableView {
     static let identifier = "SectionHeaderView"
+
+    var onTap: (() -> Void)?   
     
     fileprivate let arrowImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named:  "arrow")
+        imageView.image = UIImage(named: "arrow")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -26,9 +28,8 @@ final class OtherServicesSectionHeaderCellView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        let stackView = UIStackView(arrangedSubviews: [
-            titleLabel, arrowImageView
-        ])
+
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, arrowImageView])
         addSubview(stackView)
         stackView.spacing = 6
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,10 +43,18 @@ final class OtherServicesSectionHeaderCellView: UICollectionReusableView {
             arrowImageView.widthAnchor.constraint(equalToConstant: 18),
             arrowImageView.heightAnchor.constraint(equalToConstant: 18),
         ])
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func didTap() {
+        onTap?()
     }
 
     func configure(title: String) { titleLabel.text = title }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
+
 

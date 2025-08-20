@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OtherServicesCellView: UICollectionViewCell {
+class OtherServicesCell: UICollectionViewCell {
     static let identifier = "OtherServicesCellView"
 
     fileprivate let logoImageView: UIImageView = {

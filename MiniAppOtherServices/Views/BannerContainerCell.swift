@@ -29,7 +29,7 @@ class BannerContainerCell: UICollectionViewCell {
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(BannerCellView.self, forCellWithReuseIdentifier: BannerCellView.identifier)
+        collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.identifier)
         return collectionView
     }()
 
@@ -64,7 +64,7 @@ extension BannerContainerCell: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { data.count }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCellView.identifier, for: indexPath) as! BannerCellView
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as! BannerCell
         cell.configure(with: data[indexPath.item])
         return cell
     }
