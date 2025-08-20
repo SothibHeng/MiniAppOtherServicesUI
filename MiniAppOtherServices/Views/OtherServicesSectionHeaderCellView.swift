@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SectionHeaderView: UICollectionReusableView {
+final class OtherServicesSectionHeaderCellView: UICollectionReusableView {
     static let identifier = "SectionHeaderView"
     
     fileprivate let arrowImageView: UIImageView = {

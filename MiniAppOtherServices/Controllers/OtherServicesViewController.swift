@@ -94,9 +94,9 @@ class OtherServicesViewController: UIViewController {
         collectionView.register(BannerContainerCell.self,  forCellWithReuseIdentifier: BannerContainerCell.identifier)
         collectionView.register(ServicesContainerCell.self, forCellWithReuseIdentifier: ServicesContainerCell.identifier)
 
-        collectionView.register(SectionHeaderView.self,
+        collectionView.register(OtherServicesSectionHeaderCellView.self,
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: SectionHeaderView.identifier)
+                    withReuseIdentifier: OtherServicesSectionHeaderCellView.identifier)
         return collectionView
     }()
 
@@ -130,9 +130,9 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         let section = Section(rawValue: indexPath.section)!
         let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
-            withReuseIdentifier: SectionHeaderView.identifier,
+            withReuseIdentifier: OtherServicesSectionHeaderCellView.identifier,
             for: indexPath
-        ) as! SectionHeaderView
+        ) as! OtherServicesSectionHeaderCellView
 
         switch section {
         case .banner:
