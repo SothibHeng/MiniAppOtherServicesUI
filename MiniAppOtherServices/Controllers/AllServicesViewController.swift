@@ -49,8 +49,8 @@ class AllServicesViewController: UIViewController {
         
         collectionView.register(AllServicesHeaderCell.self,
                                 forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
-        collectionView.register(AllServiceSectionContainerCell.self,
-                                forCellWithReuseIdentifier: AllServiceSectionContainerCell.identifier)
+        collectionView.register(AllServiceSectionCell.self,
+                                forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -73,9 +73,9 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AllServiceSectionContainerCell.identifier,
+                withReuseIdentifier: AllServiceSectionCell.identifier,
                 for: indexPath
-            ) as! AllServiceSectionContainerCell
+            ) as! AllServiceSectionCell
             
             let sections = [
                 ServiceSection(title: "Recently",

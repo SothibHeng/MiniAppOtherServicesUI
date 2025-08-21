@@ -18,36 +18,39 @@ struct ServiceSection {
 
 import UIKit
 
-class AllServiceSectionContainerCell: UICollectionViewCell {
-    
+class AllServiceSectionCell: UICollectionViewCell {
+
     static let identifier = "AllServiceSectionContainerCell"
-    
+
     private var sections: [ServiceSection] = []
 
     private let sectionContainerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         layout.minimumLineSpacing = 12
         layout.minimumInteritemSpacing = 12
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 40)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         contentView.addSubview(sectionContainerCollectionView)
         sectionContainerCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            sectionContainerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            sectionContainerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             sectionContainerCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             sectionContainerCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             sectionContainerCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
+
         sectionContainerCollectionView.backgroundColor = .green
+        sectionContainerCollectionView.layer.cornerRadius = 16
         
+
+        sectionContainerCollectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+
         sectionContainerCollectionView.register(OtherServicesCell.self,
                                                 forCellWithReuseIdentifier: OtherServicesCell.identifier)
         sectionContainerCollectionView.register(HorizontalOtherServicesCell.self,
@@ -55,22 +58,22 @@ class AllServiceSectionContainerCell: UICollectionViewCell {
         sectionContainerCollectionView.register(AllServiceWrapperCell.self,
                                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                                 withReuseIdentifier: AllServiceWrapperCell.identifier)
-        
+
         sectionContainerCollectionView.dataSource = self
         sectionContainerCollectionView.delegate = self
     }
-    
+
     func configure(with sections: [ServiceSection]) {
         self.sections = sections
         sectionContainerCollectionView.reloadData()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-extension AllServiceSectionContainerCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sections.count
@@ -115,13 +118,19 @@ extension AllServiceSectionContainerCell: UICollectionViewDataSource, UICollecti
         case .vertical:
             let totalSpacing: CGFloat = 12 * 2
             let interItemSpacing: CGFloat = 12 * 2
-            let width = (collectionView.frame.width - totalSpacing - interItemSpacing) / 3
+            let width = (collectionView.frame.width - totalSpacing - interItemSpacing) / 4
             return CGSize(width: width, height: 100)
-            
+             
         case .horizontal:
             let width = collectionView.frame.width - 24
             return CGSize(width: width, height: 100)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -136,6 +145,7 @@ extension AllServiceSectionContainerCell: UICollectionViewDataSource, UICollecti
         header.titleLabel.text = section.title
         return header
     }
+    
 }
 
 
