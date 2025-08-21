@@ -19,92 +19,87 @@ struct ServiceSection {
 import UIKit
 
 class AllServiceSectionCell: UICollectionViewCell {
-
-    static let identifier = "AllServiceSectionContainerCell"
-
-    private var sections: [ServiceSection] = []
-
-    private let sectionContainerCollectionView: UICollectionView = {
+    
+    static let identifier = "AllServiceSectionCell"
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .label
+        return label
+    }()
+    
+    private let itemsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 12
         layout.minimumInteritemSpacing = 12
-        layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 40)
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-
+    
+    private var services: [ServiceModel] = []
+    private var cellType: ServiceCellType = .vertical
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        contentView.addSubview(sectionContainerCollectionView)
-        sectionContainerCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        backgroundColor = .green        
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(itemsCollectionView)
+        
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        itemsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            sectionContainerCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            sectionContainerCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            sectionContainerCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            sectionContainerCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+
+            itemsCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            itemsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            itemsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            itemsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
 
-        sectionContainerCollectionView.backgroundColor = .green
-        sectionContainerCollectionView.layer.cornerRadius = 16
         
-
-        sectionContainerCollectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-
-        sectionContainerCollectionView.register(OtherServicesCell.self,
-                                                forCellWithReuseIdentifier: OtherServicesCell.identifier)
-        sectionContainerCollectionView.register(HorizontalOtherServicesCell.self,
-                                                forCellWithReuseIdentifier: HorizontalOtherServicesCell.identifier)
-        sectionContainerCollectionView.register(AllServiceWrapperCell.self,
-                                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                                withReuseIdentifier: AllServiceWrapperCell.identifier)
-
-        sectionContainerCollectionView.dataSource = self
-        sectionContainerCollectionView.delegate = self
+        itemsCollectionView.backgroundColor = .red
+        itemsCollectionView.register(OtherServicesCell.self, forCellWithReuseIdentifier: OtherServicesCell.identifier)
+        itemsCollectionView.register(HorizontalOtherServicesCell.self, forCellWithReuseIdentifier: HorizontalOtherServicesCell.identifier)
+        itemsCollectionView.dataSource = self
+        itemsCollectionView.delegate = self
+    }
+    
+    func configure(title: String, services: [ServiceModel], cellType: ServiceCellType) {
+        self.titleLabel.text = title
+        self.services = services
+        self.cellType = cellType
+        itemsCollectionView.reloadData()
+        
+        if cellType == .horizontal {
+            (itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .horizontal
+        } else {
+            (itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.scrollDirection = .vertical
+        }
     }
 
-    func configure(with sections: [ServiceSection]) {
-        self.sections = sections
-        sectionContainerCollectionView.reloadData()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    
+    required init?(coder: NSCoder) { fatalError() }
 }
 
 extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sections[section].services.count
+        return services.count
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = sections[indexPath.section]
-        let service = section.services[indexPath.item]
-        
-        switch section.cellType {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let service = services[indexPath.item]
+        switch cellType {
         case .vertical:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: OtherServicesCell.identifier,
-                for: indexPath
-            ) as! OtherServicesCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherServicesCell.identifier, for: indexPath) as! OtherServicesCell
             cell.configure(service: service)
-            cell.backgroundColor = .white
             return cell
-            
         case .horizontal:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: HorizontalOtherServicesCell.identifier,
-                for: indexPath
-            ) as! HorizontalOtherServicesCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalOtherServicesCell.identifier, for: indexPath) as! HorizontalOtherServicesCell
             cell.configure(service: service)
-            cell.backgroundColor = .cyan
             return cell
         }
     }
@@ -112,41 +107,21 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let section = sections[indexPath.section]
-        
-        switch section.cellType {
+        switch cellType {
         case .vertical:
-            let totalSpacing: CGFloat = 12 * 2
-            let interItemSpacing: CGFloat = 12 * 2
-            let width = (collectionView.frame.width - totalSpacing - interItemSpacing) / 4
-            return CGSize(width: width, height: 100)
-             
+            if services.count > 1 && titleLabel.text == "Recently" {
+                let width = (collectionView.frame.width - 12 * 3) / 3
+                return CGSize(width: width, height: 100)
+            } else {
+                let width = collectionView.frame.width
+                return CGSize(width: width, height: 100)
+            }
         case .horizontal:
-            let width = collectionView.frame.width - 24
-            return CGSize(width: width, height: 100)
+            return CGSize(width: collectionView.frame.width, height: 100)
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        let section = sections[indexPath.section]
-        let header = collectionView.dequeueReusableSupplementaryView(
-            ofKind: kind,
-            withReuseIdentifier: AllServiceWrapperCell.identifier,
-            for: indexPath
-        ) as! AllServiceWrapperCell
-        header.titleLabel.text = section.title
-        return header
-    }
-    
 }
+
 
 
 
