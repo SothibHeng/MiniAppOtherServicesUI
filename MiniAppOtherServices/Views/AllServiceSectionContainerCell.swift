@@ -5,14 +5,25 @@
 //  Created by Universe on 20/8/25.
 //
 
-import UIKit
+enum ServiceCellType {
+    case vertical
+    case horizontal
+}
+
+struct ServiceSection {
+    let title: String
+    let services: [ServiceModel]
+    let cellType: ServiceCellType
+}
 
 import UIKit
 
 class AllServiceSectionContainerCell: UICollectionViewCell {
-
+    
     static let identifier = "AllServiceSectionContainerCell"
     
+    private var sections: [ServiceSection] = []
+
     private let sectionContainerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -25,7 +36,7 @@ class AllServiceSectionContainerCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
+        
         contentView.addSubview(sectionContainerCollectionView)
         sectionContainerCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -38,42 +49,59 @@ class AllServiceSectionContainerCell: UICollectionViewCell {
         sectionContainerCollectionView.backgroundColor = .green
         
         sectionContainerCollectionView.register(OtherServicesCell.self,
-                                     forCellWithReuseIdentifier: OtherServicesCell.identifier)
-        sectionContainerCollectionView.register(ExploreContainerCell.self,
-                                     forCellWithReuseIdentifier: ExploreContainerCell.identifier)
+                                                forCellWithReuseIdentifier: OtherServicesCell.identifier)
+        sectionContainerCollectionView.register(HorizontalOtherServicesCell.self,
+                                                forCellWithReuseIdentifier: HorizontalOtherServicesCell.identifier)
         sectionContainerCollectionView.register(AllServiceWrapperCell.self,
-                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                                     withReuseIdentifier: AllServiceWrapperCell.identifier)
+                                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                                withReuseIdentifier: AllServiceWrapperCell.identifier)
         
         sectionContainerCollectionView.dataSource = self
         sectionContainerCollectionView.delegate = self
     }
     
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    func configure(with sections: [ServiceSection]) {
+        self.sections = sections
+        sectionContainerCollectionView.reloadData()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
-
 
 extension AllServiceSectionContainerCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int { 2 }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? 3 : 5
+        return sections[section].services.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
+        let section = sections[indexPath.section]
+        let service = section.services[indexPath.item]
+        
+        switch section.cellType {
+        case .vertical:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: OtherServicesCell.identifier,
                 for: indexPath
             ) as! OtherServicesCell
+            cell.configure(service: service)
+            cell.backgroundColor = .white
             return cell
-        } else {
+            
+        case .horizontal:
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ExploreContainerCell.identifier,
+                withReuseIdentifier: HorizontalOtherServicesCell.identifier,
                 for: indexPath
-            ) as! ExploreContainerCell
+            ) as! HorizontalOtherServicesCell
+            cell.configure(service: service)
+            cell.backgroundColor = .cyan
             return cell
         }
     }
@@ -81,29 +109,35 @@ extension AllServiceSectionContainerCell: UICollectionViewDataSource, UICollecti
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 0 {
+        let section = sections[indexPath.section]
+        
+        switch section.cellType {
+        case .vertical:
             let totalSpacing: CGFloat = 12 * 2
             let interItemSpacing: CGFloat = 12 * 2
             let width = (collectionView.frame.width - totalSpacing - interItemSpacing) / 3
             return CGSize(width: width, height: 100)
-        } else {
+            
+        case .horizontal:
             let width = collectionView.frame.width - 24
-            return CGSize(width: width, height: 80)
+            return CGSize(width: width, height: 100)
         }
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = sections[indexPath.section]
         let header = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: AllServiceWrapperCell.identifier,
             for: indexPath
         ) as! AllServiceWrapperCell
-        header.titleLabel.text = indexPath.section == 0 ? "Recently" : "Explore"
+        header.titleLabel.text = section.title
         return header
     }
 }
+
 
 
 

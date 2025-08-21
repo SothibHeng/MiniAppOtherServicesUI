@@ -22,7 +22,7 @@ class AllServiceWrapperCell: UICollectionReusableView {
         super.init(frame: frame)
         addSubview(titleLabel)
         
-        backgroundColor = .cyan
+        backgroundColor = .blue
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -64,14 +64,11 @@ class WebViewController: UIViewController {
         let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
         closeButton.setImage(closeImage, for: .normal)
         closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-//        closeButton.sizeSubView(size: CGSize(width: 16, height: 16))
 
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             closeButton.widthAnchor.constraint(equalToConstant: 15),
             closeButton.heightAnchor.constraint(equalToConstant: 15),
-            
-//            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16)
         ])
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeButton)

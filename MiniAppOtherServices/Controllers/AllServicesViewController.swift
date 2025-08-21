@@ -15,6 +15,19 @@ class AllServicesViewController: UIViewController {
         layout.sectionInset = .zero
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
+    
+    private var recentServices: [ServiceModel] = [
+        ServiceModel(name: "BBC New", logo: "bbc-new", url: ""),
+        ServiceModel(name: "BBC New", logo: "bbc-new", url: ""),
+        ServiceModel(name: "BBC New", logo: "bbc-new", url: ""),
+
+    ]
+    
+    private var exploreServices: [ServiceModel] = [
+        ServiceModel(name: "Disney", logo: "disney", url: ""),
+        ServiceModel(name: "Disney", logo: "disney", url: ""),
+        ServiceModel(name: "Disney", logo: "disney", url: ""),
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +47,6 @@ class AllServicesViewController: UIViewController {
         
         collectionView.backgroundColor = .systemBackground
         
-        // Register cells
         collectionView.register(AllServicesHeaderCell.self,
                                 forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
         collectionView.register(AllServiceSectionContainerCell.self,
@@ -64,6 +76,17 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
                 withReuseIdentifier: AllServiceSectionContainerCell.identifier,
                 for: indexPath
             ) as! AllServiceSectionContainerCell
+            
+            let sections = [
+                ServiceSection(title: "Recently",
+                               services: recentServices,
+                               cellType: .vertical),
+                ServiceSection(title: "Explore",
+                               services: exploreServices,
+                               cellType: .horizontal)
+            ]
+            
+            cell.configure(with: sections)
             return cell
         }
     }
@@ -74,11 +97,12 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
         if indexPath.section == 0 {
             return CGSize(width: collectionView.frame.width, height: 180)
         } else {
-            let remainingHeight = collectionView.frame.height - 180
-            return CGSize(width: collectionView.frame.width, height: remainingHeight)
+            
+            return CGSize(width: view.frame.width, height: view.frame.height)
         }
     }
 }
+
 
 
 
