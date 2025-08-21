@@ -54,8 +54,10 @@ class AllServicesViewController: UIViewController {
         
         collectionView.register(AllServicesHeaderCell.self,
                                 forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
-        collectionView.register(AllServiceSectionCell.self,
-                                forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
+//        collectionView.register(AllServiceSectionCell.self,
+//                                forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
+        
+        collectionView.register(AllServicesWrapperCell.self, forCellWithReuseIdentifier: AllServicesWrapperCell.identifier)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -93,13 +95,25 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             ) as! AllServicesHeaderCell
             return cell
         } else {
+//            let sectionData = sections[indexPath.section - 1]
+//            let cell = collectionView.dequeueReusableCell(
+//                withReuseIdentifier: AllServiceSectionCell.identifier,
+//                for: indexPath
+//            ) as! AllServiceSectionCell
+//            cell.configure(title: sectionData.title, services: sectionData.services, cellType: sectionData.cellType)
+//            return cell
+            
             let sectionData = sections[indexPath.section - 1]
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AllServiceSectionCell.identifier,
+                withReuseIdentifier: AllServicesWrapperCell.identifier,
                 for: indexPath
-            ) as! AllServiceSectionCell
-            cell.configure(title: sectionData.title, services: sectionData.services, cellType: sectionData.cellType)
+            ) as! AllServicesWrapperCell
+            cell.configure(title: sectionData.title,
+                           services: sectionData.services,
+                           cellType: sectionData.cellType)
             return cell
+
+            
         }
     }
     
@@ -129,6 +143,10 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
     }
 
 }
+
+
+
+
 
 
 
