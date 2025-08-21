@@ -12,14 +12,13 @@ class AllServicesViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+        layout.sectionInset = .zero
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-
+        view.backgroundColor = .yellow
         setupCollectionView()
     }
 
@@ -32,13 +31,15 @@ class AllServicesViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
-        collectionView.backgroundColor = .systemBackground
-
-        collectionView.register(AllServicesHeaderCell.self, forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
         
-        collectionView.register(AllServiceWrapperCell.self, forCellWithReuseIdentifier: AllServiceWrapperCell.identifier)
-
+        collectionView.backgroundColor = .systemBackground
+        
+        // Register cells
+        collectionView.register(AllServicesHeaderCell.self,
+                                forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
+        collectionView.register(AllServiceSectionContainerCell.self,
+                                forCellWithReuseIdentifier: AllServiceSectionContainerCell.identifier)
+        
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -46,14 +47,10 @@ class AllServicesViewController: UIViewController {
 
 extension AllServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { 2 }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 1 }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
@@ -64,13 +61,13 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AllServiceWrapperCell.identifier,
+                withReuseIdentifier: AllServiceSectionContainerCell.identifier,
                 for: indexPath
-            ) as! AllServiceWrapperCell
+            ) as! AllServiceSectionContainerCell
             return cell
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -81,8 +78,8 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             return CGSize(width: collectionView.frame.width, height: remainingHeight)
         }
     }
-
 }
+
 
 
 

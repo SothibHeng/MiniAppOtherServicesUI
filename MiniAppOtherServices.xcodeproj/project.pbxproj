@@ -15,7 +15,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Views/Untitled.swift,
 			);
 			target = D7BDB3112E53112F000FF7B4 /* MiniAppOtherServices */;
 		};
