@@ -54,10 +54,8 @@ class AllServicesViewController: UIViewController {
         
         collectionView.register(AllServicesHeaderCell.self,
                                 forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
-//        collectionView.register(AllServiceSectionCell.self,
-//                                forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
         
-        collectionView.register(AllServicesWrapperCell.self, forCellWithReuseIdentifier: AllServicesWrapperCell.identifier)
+        collectionView.register(AllServiceSectionCell.self, forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -72,8 +70,7 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
         if section == 0 {
             return UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
         } else {
-//            return .zero
-            return UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
+            return .zero
         }
     }
 
@@ -95,25 +92,15 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             ) as! AllServicesHeaderCell
             return cell
         } else {
-//            let sectionData = sections[indexPath.section - 1]
-//            let cell = collectionView.dequeueReusableCell(
-//                withReuseIdentifier: AllServiceSectionCell.identifier,
-//                for: indexPath
-//            ) as! AllServiceSectionCell
-//            cell.configure(title: sectionData.title, services: sectionData.services, cellType: sectionData.cellType)
-//            return cell
-            
             let sectionData = sections[indexPath.section - 1]
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AllServicesWrapperCell.identifier,
+                withReuseIdentifier: AllServiceSectionCell.identifier,
                 for: indexPath
-            ) as! AllServicesWrapperCell
+            ) as! AllServiceSectionCell
             cell.configure(title: sectionData.title,
                            services: sectionData.services,
                            cellType: sectionData.cellType)
             return cell
-
-            
         }
     }
     
