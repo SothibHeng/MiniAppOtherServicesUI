@@ -5,6 +5,8 @@
 //  Created by Universe on 20/8/25.
 //
 
+import UIKit
+
 enum ServiceCellType {
     case vertical
     case horizontal
@@ -15,8 +17,6 @@ struct ServiceSection {
     let services: [ServiceModel]
     let cellType: ServiceCellType
 }
-
-import UIKit
 
 class AllServiceSectionCell: UICollectionViewCell {
     static let identifier = "AllServiceSectionCell"
@@ -38,11 +38,12 @@ class AllServiceSectionCell: UICollectionViewCell {
 
     private let itemsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 12
-        layout.minimumInteritemSpacing = 12
+        layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.isScrollEnabled = false // important: inner collection height expands instead of scrolling
         return cv
     }()
 
@@ -52,8 +53,6 @@ class AllServiceSectionCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-//        contentView.backgroundColor = .yellow
 
         contentView.addSubview(sectionBackground)
         sectionBackground.addSubview(titleLabel)
@@ -81,24 +80,25 @@ class AllServiceSectionCell: UICollectionViewCell {
         itemsCollectionView.dataSource = self
         itemsCollectionView.delegate = self
     }
-    
+
     func configure(title: String, services: [ServiceModel], cellType: ServiceCellType) {
-            self.titleLabel.text = title
-            self.services = services
-            self.cellType = cellType
-            self.shouldRoundTopOnly = (title == "Recently")
-            itemsCollectionView.reloadData()
+        self.titleLabel.text = title
+        self.services = services
+        self.cellType = cellType
+        self.shouldRoundTopOnly = (title == "Recently")
+        itemsCollectionView.reloadData()
 
-            if let flow = itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                flow.scrollDirection = (cellType == .horizontal) ? .horizontal : .vertical
-            }
-
-            setNeedsLayout()
+        if let flow = itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flow.scrollDirection = (cellType == .horizontal) ? .vertical : .vertical
+            flow.minimumLineSpacing = 12
+            flow.minimumInteritemSpacing = 0
         }
+
+        setNeedsLayout()
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         sectionBackground.layer.masksToBounds = true
         if shouldRoundTopOnly {
             sectionBackground.layer.cornerRadius = 16
@@ -130,12 +130,11 @@ class AllServiceSectionCell: UICollectionViewCell {
     required init?(coder: NSCoder) { fatalError() }
 }
 
-
 extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return services.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let service = services[indexPath.item]
         switch cellType {
@@ -149,22 +148,17 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
             return cell
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch cellType {
         case .vertical:
-            if services.count > 1 && titleLabel.text == "Recently" {
-                let width = (collectionView.frame.width - 12 * 3) / 3
-                return CGSize(width: width, height: 100)
-            } else {
-                let width = collectionView.frame.width
-                let height = collectionView.frame.height
-                return CGSize(width: width, height: 100)
-            }
+            let width = collectionView.frame.width / 3 - 8 // 3 columns with spacing
+            return CGSize(width: width, height: 100)
         case .horizontal:
-            return CGSize(width: collectionView.frame.width, height: 100)
+            let width = collectionView.frame.width
+            return CGSize(width: width, height: 100) // full width, stacked vertically
         }
     }
 }

@@ -115,30 +115,39 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
+            // Header cell
             return CGSize(width: collectionView.frame.width, height: 180)
         } else {
             let sectionData = sections[indexPath.section - 1]
+            let titleHeight: CGFloat = 28
+            let spacingAboveItems: CGFloat = 8
+            let bottomPadding: CGFloat = 16
+            let itemHeight: CGFloat = 100
+            let spacingBetweenItems: CGFloat = 12
 
-            if indexPath.section == sections.count {
-                let usedHeight: CGFloat = 180
-                let remainingHeight = collectionView.bounds.height - usedHeight
-                return CGSize(width: collectionView.frame.width, height: max(remainingHeight, 200))
-            } else {
-                switch sectionData.cellType {
-                case .vertical:
-                    let rows = ceil(CGFloat(sectionData.services.count) / 4.0)
-                    let cellHeight = 100.0 * rows + 12.0 * (rows - 1) + 16 * 2
-                    return CGSize(width: collectionView.frame.width, height: cellHeight + 100)
-                case .horizontal:
-                    return CGSize(width: collectionView.frame.width, height: view.frame.width)
-//                    return CGSize(width: 0, height: 0)
-                }
+            switch sectionData.cellType {
+            case .vertical:
+                // For “Recently” section with vertical grid
+                let rows = ceil(CGFloat(sectionData.services.count) / 4.0)
+                let cellHeight = CGFloat(rows) * itemHeight
+                                 + CGFloat(rows - 1) * spacingBetweenItems
+                                 + titleHeight + spacingAboveItems + bottomPadding
+                return CGSize(width: collectionView.frame.width, height: cellHeight)
+
+            case .horizontal:
+                // For “Explore” section: full-width vertical list
+                let totalHeight = titleHeight
+                                  + spacingAboveItems
+                                  + CGFloat(sectionData.services.count) * itemHeight
+                                  + CGFloat(sectionData.services.count - 1) * spacingBetweenItems
+                                  + bottomPadding
+                return CGSize(width: collectionView.frame.width, height: totalHeight)
             }
         }
     }
 
-}
 
+}
 
 
 
