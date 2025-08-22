@@ -20,6 +20,8 @@ struct ServiceSection {
 
 class AllServiceSectionCell: UICollectionViewCell {
     static let identifier = "AllServiceSectionCell"
+    
+    var onSelectService: ((ServiceModel) -> Void)?
 
     private let sectionBackground: UIView = {
         let view = UIView()
@@ -137,6 +139,12 @@ class AllServiceSectionCell: UICollectionViewCell {
 }
 
 extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedService = services[indexPath.item]
+        onSelectService?(selectedService)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return services.count
     }

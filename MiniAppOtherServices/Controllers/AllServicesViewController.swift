@@ -90,6 +90,12 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
         return 1
     }
     
+    private func showService(_ service: ServiceModel) {
+        guard let url = URL(string: service.url) else { return }
+        let webVC = WebViewController(url: url, serviceName: service.name)
+        navigationController?.pushViewController(webVC, animated: true)
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
@@ -107,6 +113,9 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             cell.configure(title: sectionData.title,
                            services: sectionData.services,
                            cellType: sectionData.cellType)
+            cell.onSelectService = { [weak self] service in
+                self?.showService(service)
+            }
             return cell
         }
     }
