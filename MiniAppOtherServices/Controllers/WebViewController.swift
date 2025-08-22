@@ -131,11 +131,25 @@ class WebViewController: UIViewController {
     }
 
     @objc private func didDimiss() {
-        if let navigation = navigationController, navigation.viewControllers.first != self {
-            navigation.popViewController(animated: true)
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
+        
+        let alert = UIAlertController(
+                title: "Are you sure?",
+                message: "Do you want to close?",
+                preferredStyle: .alert
+            )
+
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [weak self] _ in
+                guard let self = self else { return }
+                if let nav = self.navigationController, nav.viewControllers.first != self {
+                    nav.popViewController(animated: true)
+                } else {
+                    self.dismiss(animated: true)
+                }
+            }))
+
+            present(alert, animated: true)
     }
 
     deinit {
