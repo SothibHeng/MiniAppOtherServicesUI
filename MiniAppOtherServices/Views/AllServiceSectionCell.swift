@@ -53,8 +53,7 @@ class AllServiceSectionCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .gray
-        contentView.backgroundColor = .yellow
+//        contentView.backgroundColor = .yellow
 
         contentView.addSubview(sectionBackground)
         sectionBackground.addSubview(titleLabel)
@@ -76,6 +75,7 @@ class AllServiceSectionCell: UICollectionViewCell {
         ])
 
         itemsCollectionView.backgroundColor = .green
+        itemsCollectionView.layer.cornerRadius = 16
         itemsCollectionView.register(OtherServicesCell.self, forCellWithReuseIdentifier: OtherServicesCell.identifier)
         itemsCollectionView.register(HorizontalOtherServicesCell.self, forCellWithReuseIdentifier: HorizontalOtherServicesCell.identifier)
         itemsCollectionView.dataSource = self
@@ -160,6 +160,7 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
                 return CGSize(width: width, height: 100)
             } else {
                 let width = collectionView.frame.width
+                let height = collectionView.frame.height
                 return CGSize(width: width, height: 100)
             }
         case .horizontal:

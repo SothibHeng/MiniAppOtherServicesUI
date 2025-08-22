@@ -29,12 +29,12 @@ class OtherServicesCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .cyan
+//        backgroundColor = .cyan
 
         contentView.addSubview(logoImageView)
         contentView.addSubview(titleLabel)
         
-        logoImageView.backgroundColor = .red
+        logoImageView.backgroundColor = .white
 
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

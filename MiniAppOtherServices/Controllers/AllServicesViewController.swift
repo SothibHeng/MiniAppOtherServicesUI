@@ -18,15 +18,22 @@ class AllServicesViewController: UIViewController {
     }()
     
     private var recentServices: [ServiceModel] = [
-        ServiceModel(name: "BBC New", logo: "bbc-new", url: ""),
-        ServiceModel(name: "BBC New", logo: "bbc-new", url: ""),
-        ServiceModel(name: "BBC New", logo: "bbc-new", url: "")
+        ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
+        ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
+        ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
     ]
     
     private var exploreServices: [ServiceModel] = [
-        ServiceModel(name: "Disney", logo: "disney", url: ""),
-        ServiceModel(name: "Disney", logo: "disney", url: ""),
-        ServiceModel(name: "Disney", logo: "disney", url: "")
+        ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
+        ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
+        ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
+        ServiceModel(name: "Coursera", logo: "coursera", url: "https://www.coursera.org/"),
+        ServiceModel(name: "Khan Academy", logo: "khan-academy", url: "https://www.khanacademy.org/"),
+        ServiceModel(name: "Twitch", logo: "twitch", url: "https://www.twitch.tv/"),
+        ServiceModel(name: "Disney", logo: "disney", url: "https://www.disneyplus.com/"),
+        ServiceModel(name: "Etsy", logo: "etsy", url: "https://www.etsy.com/"),
+        ServiceModel(name: "Reuters", logo: "reuters", url: "https://www.reuters.com/"),
+        ServiceModel(name: "Ali Express", logo: "ali-express", url: "https://www.aliexpress.com/")
     ]
     
     private lazy var sections: [ServiceSection] = [
@@ -36,7 +43,7 @@ class AllServicesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .yellow
+        view.backgroundColor = .systemBackground
         setupCollectionView()
     }
 
@@ -121,9 +128,10 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
                 case .vertical:
                     let rows = ceil(CGFloat(sectionData.services.count) / 4.0)
                     let cellHeight = 100.0 * rows + 12.0 * (rows - 1) + 16 * 2
-                    return CGSize(width: collectionView.frame.width, height: cellHeight + 40)
+                    return CGSize(width: collectionView.frame.width, height: cellHeight + 100)
                 case .horizontal:
                     return CGSize(width: collectionView.frame.width, height: view.frame.width)
+//                    return CGSize(width: 0, height: 0)
                 }
             }
         }

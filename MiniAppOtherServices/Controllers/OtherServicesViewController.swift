@@ -106,11 +106,12 @@ class OtherServicesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        title = "Mini App Implementation"
-        view.backgroundColor = .yellow
-//        view.backgroundColor = .systemBackground
+//        view.backgroundColor = .yellow
+        view.backgroundColor = .systemBackground
         view.addSubview(wrapCollectionView)
         navigationItem.backButtonTitle = ""
-        wrapCollectionView.backgroundColor = .purple
+        wrapCollectionView.backgroundColor = .aliExpress
+//        wrapCollectionView.backgroundColor = .whiteSmoke
         
     }
 

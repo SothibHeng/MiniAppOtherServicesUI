@@ -32,7 +32,7 @@ class ServicesContainerCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .gray
+//        backgroundColor = .gray
         
         contentView.addSubview(collectionView)
     }
