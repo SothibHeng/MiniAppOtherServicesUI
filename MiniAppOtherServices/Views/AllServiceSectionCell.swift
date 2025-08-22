@@ -87,6 +87,12 @@ class AllServiceSectionCell: UICollectionViewCell {
         self.cellType = cellType
         self.shouldRoundTopOnly = (title == "Recently")
         itemsCollectionView.reloadData()
+        
+        if title == "Recently" {
+            itemsCollectionView.backgroundColor = .green
+        } else {
+            itemsCollectionView.backgroundColor = .clear
+        }
 
         if let flow = itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flow.scrollDirection = (cellType == .horizontal) ? .vertical : .vertical
@@ -158,7 +164,7 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
             return CGSize(width: width, height: 100)
         case .horizontal:
             let width = collectionView.frame.width
-            return CGSize(width: width, height: 100) 
+            return CGSize(width: width, height: 100)
         }
     }
 }

@@ -30,6 +30,7 @@ class HorizontalOtherServicesCell: UICollectionViewCell {
         super.init(frame: frame)
         
         backgroundColor = .cyan
+        layer.cornerRadius = 16
 
         contentView.addSubview(logoImageView)
         contentView.addSubview(titleLabel)
