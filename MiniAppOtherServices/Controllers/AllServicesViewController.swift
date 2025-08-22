@@ -91,9 +91,8 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     private func showService(_ service: ServiceModel) {
-        guard let url = URL(string: service.url) else { return }
-        let webVC = WebViewController(url: url, serviceName: service.name)
-        navigationController?.pushViewController(webVC, animated: true)
+        let webController = WebViewController(service: service)
+        navigationController?.pushViewController(webController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView,

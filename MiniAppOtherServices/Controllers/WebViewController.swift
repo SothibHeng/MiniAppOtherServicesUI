@@ -11,13 +11,13 @@ import WebKit
 class WebViewController: UIViewController {
     private var webView: WKWebView!
     private var url: URL
-    private var serviceName: String
-    
+    private var service: ServiceModel
+
     private var progressView: UIProgressView!
 
-    init(url: URL, serviceName: String) {
-        self.url = url
-        self.serviceName = serviceName
+    init(service: ServiceModel) {
+        self.service = service
+        self.url = URL(string: service.url)!
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,7 +41,6 @@ class WebViewController: UIViewController {
         let backImage = UIImage(named: "back")?.withRenderingMode(.alwaysOriginal)
         backButton.setImage(backImage, for: .normal)
         backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-
         backButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             backButton.widthAnchor.constraint(equalToConstant: 18),
@@ -49,7 +48,7 @@ class WebViewController: UIViewController {
         ])
 
         let titleLabel = UILabel()
-        titleLabel.text = serviceName
+        titleLabel.text = service.name
         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         titleLabel.textColor = .label
 
@@ -57,32 +56,30 @@ class WebViewController: UIViewController {
         leftStack.axis = .horizontal
         leftStack.spacing = 8
         leftStack.alignment = .center
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStack)
         
         let closeButton = UIButton(type: .system)
-            let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
-            closeButton.setImage(closeImage, for: .normal)
-            closeButton.addTarget(self, action: #selector(didDimiss), for: .touchUpInside)
-            closeButton.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                closeButton.widthAnchor.constraint(equalToConstant: 14),
-                closeButton.heightAnchor.constraint(equalToConstant: 14)
-            ])
-
-            let container = UIView()
-            container.addSubview(closeButton)
-            container.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                closeButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
-                closeButton.topAnchor.constraint(equalTo: container.topAnchor),
-                closeButton.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-                closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor)
-            ])
-
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: container)
+        let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
+        closeButton.setImage(closeImage, for: .normal)
+        closeButton.addTarget(self, action: #selector(didTapDismissConfirmation), for: .touchUpInside)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            closeButton.widthAnchor.constraint(equalToConstant: 14),
+            closeButton.heightAnchor.constraint(equalToConstant: 14)
+        ])
+        
+        let container = UIView()
+        container.addSubview(closeButton)
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            closeButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+            closeButton.topAnchor.constraint(equalTo: container.topAnchor),
+            closeButton.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+        ])
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: container)
     }
-
 
     private func setupWebView() {
         webView = WKWebView(frame: .zero)
@@ -130,26 +127,23 @@ class WebViewController: UIViewController {
         }
     }
 
-    @objc private func didDimiss() {
+    @objc private func didTapDismissConfirmation() {
+        let confirmationToggle = ServiceConfirmationToggleView(service: service)
         
-        let alert = UIAlertController(
-                title: "Are you sure?",
-                message: "Do you want to close?",
-                preferredStyle: .alert
-            )
-
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-            alert.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [weak self] _ in
-                guard let self = self else { return }
-                if let nav = self.navigationController, nav.viewControllers.first != self {
-                    nav.popViewController(animated: true)
-                } else {
-                    self.dismiss(animated: true)
-                }
-            }))
-
-            present(alert, animated: true)
+        confirmationToggle.onConfirm = { [weak self] in
+            guard let self = self else { return }
+            if let nav = self.navigationController, nav.viewControllers.first != self {
+                nav.popViewController(animated: true)
+            } else {
+                self.dismiss(animated: true)
+            }
+        }
+        
+        confirmationToggle.onCancel = {
+            print("Cancel was clicked!")
+        }
+        
+        confirmationToggle.show(in: view)
     }
 
     deinit {
@@ -158,6 +152,7 @@ class WebViewController: UIViewController {
 }
 
 extension WebViewController: WKNavigationDelegate {}
+
 
 
 
