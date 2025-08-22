@@ -43,7 +43,7 @@ class AllServiceSectionCell: UICollectionViewCell {
         layout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.isScrollEnabled = false // important: inner collection height expands instead of scrolling
+        cv.isScrollEnabled = false 
         return cv
     }()
 
@@ -154,11 +154,11 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch cellType {
         case .vertical:
-            let width = collectionView.frame.width / 3 - 8 // 3 columns with spacing
+            let width = collectionView.frame.width / 3 - 8
             return CGSize(width: width, height: 100)
         case .horizontal:
             let width = collectionView.frame.width
-            return CGSize(width: width, height: 100) // full width, stacked vertically
+            return CGSize(width: width, height: 100) 
         }
     }
 }

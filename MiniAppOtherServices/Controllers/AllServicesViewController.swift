@@ -115,7 +115,6 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
-            // Header cell
             return CGSize(width: collectionView.frame.width, height: 180)
         } else {
             let sectionData = sections[indexPath.section - 1]
@@ -127,15 +126,13 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
 
             switch sectionData.cellType {
             case .vertical:
-                // For “Recently” section with vertical grid
                 let rows = ceil(CGFloat(sectionData.services.count) / 4.0)
                 let cellHeight = CGFloat(rows) * itemHeight
                                  + CGFloat(rows - 1) * spacingBetweenItems
                                  + titleHeight + spacingAboveItems + bottomPadding
-                return CGSize(width: collectionView.frame.width, height: cellHeight)
+                return CGSize(width: collectionView.frame.width, height: cellHeight + 80)
 
             case .horizontal:
-                // For “Explore” section: full-width vertical list
                 let totalHeight = titleHeight
                                   + spacingAboveItems
                                   + CGFloat(sectionData.services.count) * itemHeight
@@ -145,8 +142,6 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             }
         }
     }
-
-
 }
 
 
