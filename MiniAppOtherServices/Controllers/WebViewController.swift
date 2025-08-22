@@ -59,19 +59,28 @@ class WebViewController: UIViewController {
         leftStack.alignment = .center
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStack)
-
+        
         let closeButton = UIButton(type: .system)
-        let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
-        closeButton.setImage(closeImage, for: .normal)
-        closeButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
+            let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
+            closeButton.setImage(closeImage, for: .normal)
+            closeButton.addTarget(self, action: #selector(didDimiss), for: .touchUpInside)
+            closeButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                closeButton.widthAnchor.constraint(equalToConstant: 14),
+                closeButton.heightAnchor.constraint(equalToConstant: 14)
+            ])
 
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            closeButton.widthAnchor.constraint(equalToConstant: 15),
-            closeButton.heightAnchor.constraint(equalToConstant: 15),
-        ])
+            let container = UIView()
+            container.addSubview(closeButton)
+            container.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                closeButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
+                closeButton.topAnchor.constraint(equalTo: container.topAnchor),
+                closeButton.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+                closeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+            ])
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeButton)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: container)
     }
 
 
@@ -121,8 +130,12 @@ class WebViewController: UIViewController {
         }
     }
 
-    @objc private func didTapClose() {
-        dismiss(animated: true, completion: nil)
+    @objc private func didDimiss() {
+        if let navigation = navigationController, navigation.viewControllers.first != self {
+            navigation.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 
     deinit {
