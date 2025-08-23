@@ -22,10 +22,9 @@ class OtherServicesCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
-        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 

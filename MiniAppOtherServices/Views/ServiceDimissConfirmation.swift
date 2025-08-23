@@ -41,7 +41,7 @@ class ServiceConfirmationToggleView: UIView {
     fileprivate let messageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
