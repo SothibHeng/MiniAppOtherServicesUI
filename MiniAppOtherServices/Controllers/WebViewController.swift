@@ -9,9 +9,9 @@ import UIKit
 import WebKit
 
 class WebViewController: UIViewController {
-    private var webView: WKWebView!
-    private var url: URL
-    private var service: ServiceModel
+    fileprivate var webView: WKWebView!
+    fileprivate var url: URL
+    fileprivate var service: ServiceModel
 
     private var progressView: UIProgressView!
 
@@ -36,7 +36,7 @@ class WebViewController: UIViewController {
         webView.load(URLRequest(url: url))
     }
 
-    private func setupNavigationBar() {
+    fileprivate func setupNavigationBar() {
         let backButton = UIButton(type: .system)
         let backImage = UIImage(named: "back")?.withRenderingMode(.alwaysOriginal)
         backButton.setImage(backImage, for: .normal)
@@ -81,7 +81,7 @@ class WebViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: container)
     }
 
-    private func setupWebView() {
+    fileprivate func setupWebView() {
         webView = WKWebView(frame: .zero)
         webView.navigationDelegate = self
         view.addSubview(webView)
@@ -95,7 +95,7 @@ class WebViewController: UIViewController {
         ])
     }
 
-    private func setupProgressView() {
+    fileprivate func setupProgressView() {
         progressView = UIProgressView(progressViewStyle: .bar)
         progressView.progressTintColor = .systemBlue
         progressView.trackTintColor = .clear
@@ -119,7 +119,7 @@ class WebViewController: UIViewController {
         }
     }
 
-    @objc private func didTapBack() {
+    @objc fileprivate func didTapBack() {
         if webView.canGoBack {
             webView.goBack()
         } else {
@@ -127,7 +127,7 @@ class WebViewController: UIViewController {
         }
     }
 
-    @objc private func didTapDismissConfirmation() {
+    @objc fileprivate func didTapDismissConfirmation() {
         let confirmationToggle = ServiceConfirmationToggleView(service: service)
         
         confirmationToggle.onConfirm = { [weak self] in

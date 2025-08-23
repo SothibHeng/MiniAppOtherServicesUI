@@ -18,11 +18,14 @@ class OtherServicesCell: UICollectionViewCell {
         return imageView
     }()
 
-    fileprivate let titleLabel: UILabel = {
+    fileprivate let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textAlignment = .center
         label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
@@ -32,12 +35,13 @@ class OtherServicesCell: UICollectionViewCell {
 //        backgroundColor = .cyan
 
         contentView.addSubview(logoImageView)
-        contentView.addSubview(titleLabel)
+        contentView.addSubview(nameLabel)
         
         logoImageView.backgroundColor = .white
+        nameLabel.backgroundColor = .red
 
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
@@ -45,17 +49,17 @@ class OtherServicesCell: UICollectionViewCell {
             logoImageView.widthAnchor.constraint(equalToConstant: 74),
             logoImageView.heightAnchor.constraint(equalToConstant: 74),
 
-            titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 6),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -4),
-            titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16)
+            nameLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 6),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -4),
+            nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16)
         ])
     }
 
     func configure(service: ServiceModel) {
         logoImageView.image = UIImage(named: service.logo)
-        titleLabel.text = service.name
+        nameLabel.text = service.name
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

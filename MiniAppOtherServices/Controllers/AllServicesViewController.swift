@@ -9,7 +9,7 @@ import UIKit
 
 class AllServicesViewController: UIViewController {
 
-    private let collectionView: UICollectionView = {
+    fileprivate let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
@@ -17,18 +17,18 @@ class AllServicesViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
-    private var recentServices: [ServiceModel] = [
+    fileprivate var recentServices: [ServiceModel] = [
         ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
         ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
         ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
     ]
     
-    private var exploreServices: [ServiceModel] = [
+    fileprivate var exploreServices: [ServiceModel] = [
         ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
         ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
         ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
         ServiceModel(name: "Coursera", logo: "coursera", url: "https://www.coursera.org/"),
-        ServiceModel(name: "Khan Academy", logo: "khan-academy", url: "https://www.khanacademy.org/"),
+        ServiceModel(name: "khan-academy", logo: "khan-academy", url: "https://www.khanacademy.org/"),
         ServiceModel(name: "Twitch", logo: "twitch", url: "https://www.twitch.tv/"),
         ServiceModel(name: "Disney", logo: "disney", url: "https://www.disneyplus.com/"),
         ServiceModel(name: "Etsy", logo: "etsy", url: "https://www.etsy.com/"),
@@ -36,7 +36,7 @@ class AllServicesViewController: UIViewController {
         ServiceModel(name: "Ali Express", logo: "ali-express", url: "https://www.aliexpress.com/")
     ]
     
-    private lazy var sections: [ServiceSection] = [
+    fileprivate lazy var sections: [ServiceSection] = [
         ServiceSection(title: "Recently", services: recentServices, cellType: .vertical),
         ServiceSection(title: "Explore", services: exploreServices, cellType: .horizontal)
     ]
@@ -47,7 +47,7 @@ class AllServicesViewController: UIViewController {
         setupCollectionView()
     }
 
-    private func setupCollectionView() {
+    fileprivate func setupCollectionView() {
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -90,7 +90,7 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
         return 1
     }
     
-    private func showService(_ service: ServiceModel) {
+    fileprivate func showService(_ service: ServiceModel) {
         let webController = WebViewController(service: service)
         navigationController?.pushViewController(webController, animated: true)
     }
@@ -129,7 +129,7 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             let titleHeight: CGFloat = 28
             let spacingAboveItems: CGFloat = 8
             let bottomPadding: CGFloat = 16
-            let itemHeight: CGFloat = 100
+            let itemHeight: CGFloat = 120
             let spacingBetweenItems: CGFloat = 12
 
             switch sectionData.cellType {

@@ -23,22 +23,22 @@ class AllServiceSectionCell: UICollectionViewCell {
     
     var onSelectService: ((ServiceModel) -> Void)?
 
-    private let sectionBackground: UIView = {
+    fileprivate let sectionBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    private let titleLabel: UILabel = {
+    fileprivate let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = .label
+        label.textColor = .titleColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let itemsCollectionView: UICollectionView = {
+    fileprivate let itemsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 12
@@ -49,9 +49,9 @@ class AllServiceSectionCell: UICollectionViewCell {
         return cv
     }()
 
-    private var services: [ServiceModel] = []
-    private var cellType: ServiceCellType = .vertical
-    private var shouldRoundTopOnly = false
+    fileprivate var services: [ServiceModel] = []
+    fileprivate var cellType: ServiceCellType = .vertical
+    fileprivate var shouldRoundTopOnly = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -169,7 +169,7 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
         switch cellType {
         case .vertical:
             let width = collectionView.frame.width / 3 - 8
-            return CGSize(width: width, height: 100)
+            return CGSize(width: width, height: 120)
         case .horizontal:
             let width = collectionView.frame.width
             return CGSize(width: width, height: 100)

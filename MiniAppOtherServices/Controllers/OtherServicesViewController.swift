@@ -9,7 +9,7 @@ import UIKit
 
 class OtherServicesViewController: UIViewController {
 
-    private enum Section: Int, CaseIterable {
+    fileprivate enum Section: Int, CaseIterable {
         case banner
         case services
     }
@@ -105,7 +105,7 @@ class OtherServicesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        title = "Mini App Implementation"
+        title = "Mini App Implementation"
 //        view.backgroundColor = .yellow
         view.backgroundColor = .systemBackground
         view.addSubview(wrapCollectionView)
@@ -120,7 +120,7 @@ class OtherServicesViewController: UIViewController {
         wrapCollectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
     
-    private func showService(_ service: ServiceModel) {
+    fileprivate func showService(_ service: ServiceModel) {
         let webController = WebViewController(service: service)
         navigationController?.pushViewController(webController, animated: true)
     }
@@ -199,9 +199,9 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         let width = collectionView.bounds.width
 
         if indexPath.section == Section.banner.rawValue {
-            return CGSize(width: width, height: 224)
+            return CGSize(width: width, height: 200)
         } else {
-            return CGSize(width: width, height: 110)
+            return CGSize(width: width, height: 120)
         }
     }
 

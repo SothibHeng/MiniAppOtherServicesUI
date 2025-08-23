@@ -12,14 +12,14 @@ class ServiceConfirmationToggleView: UIView {
     var onConfirm: (() -> Void)?
     var onCancel: (() -> Void)?
 
-    private let container: UIView = {
+    fileprivate let container: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 12
         return view
     }()
 
-    private let serviceImageView: UIImageView = {
+    fileprivate let serviceImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 16
@@ -27,24 +27,29 @@ class ServiceConfirmationToggleView: UIView {
         return imageView
     }()
 
-    private let serviceNameLabel: UILabel = {
+    fileprivate let serviceNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textAlignment = .center
         label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
-    private let messageLabel: UILabel = {
+    fileprivate let messageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.numberOfLines = 0
+        label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         label.textColor = .subtitleColor
         return label
     }()
 
-    private let cancelButton: UIButton = {
+    fileprivate let cancelButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .white
         button.setTitle("Cancel", for: .normal)
@@ -56,7 +61,7 @@ class ServiceConfirmationToggleView: UIView {
         return button
     }()
 
-    private let confirmButton: UIButton = {
+    fileprivate let confirmButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .white
         button.setTitle("OK", for: .normal)
@@ -83,13 +88,13 @@ class ServiceConfirmationToggleView: UIView {
         confirmButton.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
     }
 
-    private func setupLayout() {
+    fileprivate func setupLayout() {
         addSubview(container)
         container.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             container.centerYAnchor.constraint(equalTo: centerYAnchor),
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
-            container.widthAnchor.constraint(equalToConstant: 280),
+            container.widthAnchor.constraint(equalToConstant: 320),
             container.heightAnchor.constraint(equalToConstant: 220)
         ])
 
@@ -116,22 +121,22 @@ class ServiceConfirmationToggleView: UIView {
 
             cancelButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -18),
             cancelButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 24),
-            cancelButton.widthAnchor.constraint(equalToConstant: 108),
+            cancelButton.widthAnchor.constraint(equalToConstant: 128),
             cancelButton.heightAnchor.constraint(equalToConstant: 45),
 
             confirmButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -18),
             confirmButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -24),
-            confirmButton.widthAnchor.constraint(equalToConstant: 108),
+            confirmButton.widthAnchor.constraint(equalToConstant: 128),
             confirmButton.heightAnchor.constraint(equalToConstant: 45),
         ])
     }
 
-    @objc private func didTapCancel() {
+    @objc fileprivate func didTapCancel() {
         hide()
         onCancel?()
     }
 
-    @objc private func didTapConfirm() {
+    @objc fileprivate func didTapConfirm() {
         hide()
         onConfirm?()
     }
