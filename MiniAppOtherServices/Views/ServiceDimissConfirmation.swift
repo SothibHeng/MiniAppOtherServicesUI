@@ -118,6 +118,7 @@ class ServiceConfirmationToggleView: UIView {
             messageLabel.topAnchor.constraint(equalTo: serviceNameLabel.bottomAnchor, constant: 8),
             messageLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 12),
             messageLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -12),
+            messageLabel.bottomAnchor.constraint(lessThanOrEqualTo: cancelButton.topAnchor, constant: -12),
 
             cancelButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -18),
             cancelButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 24),
