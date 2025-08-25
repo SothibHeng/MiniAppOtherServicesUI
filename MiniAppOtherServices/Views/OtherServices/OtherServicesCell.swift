@@ -36,7 +36,7 @@ class OtherServicesCell: UICollectionViewCell {
         contentView.addSubview(logoImageView)
         contentView.addSubview(nameLabel)
         
-        logoImageView.backgroundColor = .white
+        logoImageView.backgroundColor = .red
         nameLabel.backgroundColor = .red
 
         logoImageView.translatesAutoresizingMaskIntoConstraints = false

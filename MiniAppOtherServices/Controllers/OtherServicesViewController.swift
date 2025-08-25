@@ -14,118 +14,55 @@ class OtherServicesViewController: UIViewController {
         case services
     }
 
-    fileprivate var banners: [BannerModel] = [
-        BannerModel(
-            image: UIImage(named: "bbc-new")!,
-            size: .init(width: 120, height: 80),
-            backgroundColor: .bbcNew
-        ),
-        BannerModel(image: UIImage(
-            named: "duolingo")!,
-            size: .init(width: 110, height: 110
-        ),
-            backgroundColor: .duolingo),
-        BannerModel(
-            image: UIImage(named: "imbd")!,
-            size: .init(width: 150, height: 70),
-            backgroundColor: .imbd
-        ),
-        BannerModel(
-            image: UIImage(named: "coursera")!,
-            size: .init(width: 110, height: 90),
-            backgroundColor: .coursera
-        ),
-        BannerModel(
-            image: UIImage(named: "khan-academy")!,
-            size: .init(width: 120, height: 90),
-            backgroundColor: .khanAcedemy
-        ),
-        BannerModel(
-            image: UIImage(named: "twitch")!,
-            size: .init(width: 120, height: 100),
-            backgroundColor: .twitch
-        ),
-        BannerModel(
-            image: UIImage(named: "disney")!,
-            size: .init(width: 130, height: 90),
-            backgroundColor: .disney
-        ),
-        BannerModel(
-            image: UIImage(named: "etsy")!,
-            size: .init(width: 110, height: 80),
-            backgroundColor: .white
-        ),
-        BannerModel(
-            image: UIImage(named: "reuters")!,
-            size: .init(width: 120, height: 70),
-            backgroundColor: .reuters
-        ),
-        BannerModel(
-            image: UIImage(named: "ali-express")!,
-            size: .init(width: 140, height: 80),
-            backgroundColor: .white
-        )
-    ]
+    fileprivate var services: [ServiceModel] {
+        ServiceType.allCases.map { ServiceModel(serviceType: $0) }
+    }
 
-    fileprivate var services: [ServiceModel] = [
-        ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
-        ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
-        ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
-        ServiceModel(name: "Coursera", logo: "coursera", url: "https://www.coursera.org/"),
-        ServiceModel(name: "Khan Academy", logo: "khan-academy", url: "https://www.khanacademy.org/"),
-        ServiceModel(name: "Twitch", logo: "twitch", url: "https://www.twitch.tv/"),
-        ServiceModel(name: "Disney", logo: "disney", url: "https://www.disneyplus.com/"),
-        ServiceModel(name: "Etsy", logo: "etsy", url: "https://www.etsy.com/"),
-        ServiceModel(name: "Reuters", logo: "reuters", url: "https://www.reuters.com/"),
-        ServiceModel(name: "Ali Express", logo: "ali-express", url: "https://www.aliexpress.com/")
-    ]
-    
+    fileprivate var banners: [BannerModel] {
+        services.map { $0.banner }
+    }
+
     fileprivate lazy var wrapCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.backgroundColor = .systemBackground
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
-        
-        collectionView.register(OtherServicesSectionHeaderCell.self,
-                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: OtherServicesSectionHeaderCell.identifier)
 
-        collectionView.register(BannerContainerCell.self,  forCellWithReuseIdentifier: BannerContainerCell.identifier)
+        collectionView.register(
+            OtherServicesSectionHeaderCell.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: OtherServicesSectionHeaderCell.identifier
+        )
+        
+        collectionView.register(BannerContainerCell.self, forCellWithReuseIdentifier: BannerContainerCell.identifier)
         collectionView.register(ServicesContainerCell.self, forCellWithReuseIdentifier: ServicesContainerCell.identifier)
 
         return collectionView
     }()
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Mini App Implementation"
-//        view.backgroundColor = .yellow
         view.backgroundColor = .systemBackground
         view.addSubview(wrapCollectionView)
         navigationItem.backButtonTitle = ""
-        wrapCollectionView.backgroundColor = .aliExpress
-//        wrapCollectionView.backgroundColor = .whiteSmoke
-        
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         wrapCollectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
-    
+
     fileprivate func showService(_ service: ServiceModel) {
         let webController = WebViewController(service: service)
         navigationController?.pushViewController(webController, animated: true)
     }
-
 }
+
 
 extension OtherServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     

@@ -16,24 +16,24 @@ class AllServicesViewController: UIViewController {
         layout.sectionInset = .zero
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
-    
+
     fileprivate var recentServices: [ServiceModel] = [
-        ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
-        ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
-        ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
+        ServiceModel(serviceType: .bbc),
+        ServiceModel(serviceType: .duolingo),
+        ServiceModel(serviceType: .imdb)
     ]
     
     fileprivate var exploreServices: [ServiceModel] = [
-        ServiceModel(name: "BBC New", logo: "bbc-new", url: "https://www.bbc.com/news"),
-        ServiceModel(name: "Duolingo", logo: "duolingo", url: "https://www.duolingo.com/"),
-        ServiceModel(name: "IMBD", logo: "imbd", url: "https://www.imdb.com/"),
-        ServiceModel(name: "Coursera", logo: "coursera", url: "https://www.coursera.org/"),
-        ServiceModel(name: "khan-academy", logo: "khan-academy", url: "https://www.khanacademy.org/"),
-        ServiceModel(name: "Twitch", logo: "twitch", url: "https://www.twitch.tv/"),
-        ServiceModel(name: "Disney", logo: "disney", url: "https://www.disneyplus.com/"),
-        ServiceModel(name: "Etsy", logo: "etsy", url: "https://www.etsy.com/"),
-        ServiceModel(name: "Reuters", logo: "reuters", url: "https://www.reuters.com/"),
-        ServiceModel(name: "Ali Express", logo: "ali-express", url: "https://www.aliexpress.com/")
+        ServiceModel(serviceType: .bbc),
+        ServiceModel(serviceType: .duolingo),
+        ServiceModel(serviceType: .imdb),
+        ServiceModel(serviceType: .disney),
+        ServiceModel(serviceType: .coursera),
+        ServiceModel(serviceType: .khanAcademy),
+        ServiceModel(serviceType: .twitch),
+        ServiceModel(serviceType: .etsy),
+        ServiceModel(serviceType: .reuters),
+        ServiceModel(serviceType: .aliExpress)
     ]
     
     fileprivate lazy var sections: [ServiceSection] = [
@@ -62,12 +62,14 @@ class AllServicesViewController: UIViewController {
         collectionView.register(AllServicesHeaderCell.self,
                                 forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
         
-        collectionView.register(AllServiceSectionCell.self, forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
+        collectionView.register(AllServiceSectionCell.self,
+                                forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
         
         collectionView.dataSource = self
         collectionView.delegate = self
     }
 }
+
 
 extension AllServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -81,7 +83,6 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
 
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1 + sections.count
     }

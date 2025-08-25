@@ -8,7 +8,9 @@
 import Foundation
 
 struct ServiceModel {
-    let name: String
-    let logo: String
-    let url: String
+    let serviceType: ServiceType
+    var name: String { serviceType.name }
+    var logo: String { serviceType.logo }
+    var url: String { serviceType.url }
+    var banner: BannerModel { serviceType.banner }
 }
