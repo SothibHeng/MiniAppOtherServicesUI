@@ -144,6 +144,7 @@ class WebViewController: UIViewController {
         }
         
         confirmationToggle.show(in: view)
+
     }
 
     deinit {

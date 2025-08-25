@@ -86,6 +86,9 @@ class ServiceConfirmationToggleView: UIView {
 
         cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapOutside))
+        addGestureRecognizer(tap)
     }
 
     fileprivate func setupLayout() {
@@ -140,6 +143,15 @@ class ServiceConfirmationToggleView: UIView {
     @objc fileprivate func didTapConfirm() {
         hide()
         onConfirm?()
+    }
+    
+    @objc fileprivate func didTapOutside(_ gesture: UITapGestureRecognizer) {
+        print("Tap is in outside toggle container.")
+        let location = gesture.location(in: self)
+        
+        if !container.frame.contains(location) {
+            hide()
+        }
     }
 
     func show(in parent: UIView) {
