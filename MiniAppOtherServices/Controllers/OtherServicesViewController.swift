@@ -50,6 +50,10 @@ class OtherServicesViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(wrapCollectionView)
         navigationItem.backButtonTitle = ""
+        
+        view.backgroundColor = .white
+        
+        wrapCollectionView.backgroundColor = .white
     }
 
     override func viewDidLayoutSubviews() {
@@ -62,7 +66,6 @@ class OtherServicesViewController: UIViewController {
         navigationController?.pushViewController(webController, animated: true)
     }
 }
-
 
 extension OtherServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -91,7 +94,6 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         return header
     }
 
-
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -104,7 +106,6 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         }
     }
 
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         Section.allCases.count
     }
@@ -136,7 +137,7 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         let width = collectionView.bounds.width
 
         if indexPath.section == Section.banner.rawValue {
-            return CGSize(width: width, height: 200)
+            return CGSize(width: width, height: 160)
         } else {
             return CGSize(width: width, height: 120)
         }

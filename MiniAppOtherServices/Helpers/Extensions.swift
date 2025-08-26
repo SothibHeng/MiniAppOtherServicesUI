@@ -27,6 +27,22 @@ extension UIColor {
         return UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
     }
     
+    static var lightBorder: UIColor {
+        return UIColor(red: 232/255, green: 232/255, blue: 232/255, alpha: 1.0)
+    }
+    
+    static var background: UIColor {
+        return UIColor(red: 237/255, green: 245/255, blue: 255/255, alpha: 1.0)
+    }
+    
+    static var sunYellow: UIColor {
+        return UIColor(red: 255/255, green: 179/255, blue: 15/255, alpha: 1.0)
+    }
+    
+    static var primary: UIColor {
+        return UIColor(red: 31/255, green: 67/255, blue: 117/255, alpha: 1.0)
+    }
+    
     static var titleColor: UIColor {
             return UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0)
         }
@@ -68,7 +84,7 @@ extension UIColor {
     }
     
     static var bbcNew:UIColor {
-        return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        return UIColor(red: 186/255, green: 1/255, blue: 1/255, alpha: 1.0)
     }
     
     static var reuters: UIColor {

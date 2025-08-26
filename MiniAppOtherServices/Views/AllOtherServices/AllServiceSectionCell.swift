@@ -25,7 +25,7 @@ class AllServiceSectionCell: UICollectionViewCell {
 
     fileprivate let sectionBackground: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .background
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -55,6 +55,8 @@ class AllServiceSectionCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        backgroundColor = .primary
 
         contentView.addSubview(sectionBackground)
         sectionBackground.addSubview(titleLabel)
@@ -75,7 +77,7 @@ class AllServiceSectionCell: UICollectionViewCell {
             itemsCollectionView.bottomAnchor.constraint(equalTo: sectionBackground.bottomAnchor, constant: -16),
         ])
 
-        itemsCollectionView.backgroundColor = .green
+        itemsCollectionView.backgroundColor = .white
         itemsCollectionView.layer.cornerRadius = 16
         itemsCollectionView.register(OtherServicesCell.self, forCellWithReuseIdentifier: OtherServicesCell.identifier)
         itemsCollectionView.register(HorizontalOtherServicesCell.self, forCellWithReuseIdentifier: HorizontalOtherServicesCell.identifier)
@@ -91,7 +93,12 @@ class AllServiceSectionCell: UICollectionViewCell {
         itemsCollectionView.reloadData()
         
         if title == "Recently" {
-            itemsCollectionView.backgroundColor = .green
+            itemsCollectionView.backgroundColor = .white
+            itemsCollectionView.layer.shadowColor = UIColor.subtitleColor.cgColor
+            itemsCollectionView.layer.shadowOpacity = 0.1
+            itemsCollectionView.layer.shadowOffset = CGSize(width: 0, height: 2)
+            itemsCollectionView.layer.shadowRadius = 4
+            itemsCollectionView.layer.masksToBounds = false
         } else {
             itemsCollectionView.backgroundColor = .clear
         }

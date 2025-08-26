@@ -10,30 +10,30 @@ import UIKit
 class BannerContainerCell: UICollectionViewCell {
     static let identifier = "BannerContainerCell"
 
-    private var banners: [BannerModel] = []
-    private var pageControllers: [UIViewController] = []
+    fileprivate var banners: [BannerModel] = []
+    fileprivate var pageControllers: [UIViewController] = []
     
-    private var timer: Timer?
+    fileprivate var timer: Timer?
     
-    private let pageControl: UIPageControl = {
-        let pc = UIPageControl()
-        pc.hidesForSinglePage = true
-        return pc
+    fileprivate let pageControl: UIPageControl = {
+        let pageView = UIPageControl()
+        pageView.hidesForSinglePage = true
+        return pageView
     }()
     
-    private lazy var pageViewController: UIPageViewController = {
-        let pvc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        pvc.dataSource = self
-        pvc.delegate = self
-        return pvc
+    fileprivate lazy var pageViewController: UIPageViewController = {
+        let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        pageViewController.dataSource = self
+        pageViewController.delegate = self
+        return pageViewController
     }()
     
-    private var currentIndex = 0
+    fileprivate var currentIndex = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .blue
+        backgroundColor = .white
         
         contentView.addSubview(pageViewController.view)
         contentView.addSubview(pageControl)
@@ -45,20 +45,25 @@ class BannerContainerCell: UICollectionViewCell {
         super.layoutSubviews()
         
         let paddingHorizontal: CGFloat = 16
-        let paddingTop: CGFloat = 18
-        let pageControlHeight: CGFloat = 24
         
         let width = contentView.bounds.width - 2 * paddingHorizontal
-        let height = contentView.bounds.height - paddingTop
+        let height = contentView.bounds.height  
         
         pageViewController.view.frame = CGRect(
             x: paddingHorizontal,
-            y: paddingTop,
+            y: 0,
             width: width,
-            height: height - pageControlHeight
+            height: height
+        )
+        
+        pageControl.frame = CGRect(
+            x: paddingHorizontal,
+            y: height - pageControl.frame.height,
+            width: width,
+            height: pageControl.frame.height
         )
     }
-    
+
     func configure(with banners: [BannerModel]) {
         self.banners = banners
         self.pageControllers = banners.map { BannerViewController(banner: $0) }
@@ -79,14 +84,13 @@ class BannerContainerCell: UICollectionViewCell {
         startAutoSlide()
     }
 
-    private func updateCurrentPage() {
-        // Update current page indicator on visible banner
+    fileprivate func updateCurrentPage() {
         if let currentVC = pageViewController.viewControllers?.first as? BannerViewController {
             currentVC.pageControl.currentPage = currentIndex
         }
     }
 
-    private func goToNextPage() {
+    fileprivate func goToNextPage() {
         guard !pageControllers.isEmpty else { return }
         let nextIndex = (currentIndex + 1) % pageControllers.count
         let nextVC = pageControllers[nextIndex]
@@ -96,7 +100,7 @@ class BannerContainerCell: UICollectionViewCell {
     }
 
     
-    private func startAutoSlide() {
+    fileprivate func startAutoSlide() {
         timer?.invalidate()
         guard banners.count > 1 else { return }
         timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
@@ -129,6 +133,9 @@ extension BannerContainerCell: UIPageViewControllerDataSource, UIPageViewControl
         }
     }
 }
+
+
+
 
 
 

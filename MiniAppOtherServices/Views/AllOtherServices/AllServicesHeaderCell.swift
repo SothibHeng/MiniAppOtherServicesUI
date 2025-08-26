@@ -14,17 +14,17 @@ class AllServicesHeaderCell: UICollectionViewCell {
     
     fileprivate let titlelabel: UILabel = {
         let label = UILabel()
-        label.text = "Other Servies"
-        label.textColor = .titleColor
+        label.text = "Other Services"
+        label.textColor = .sunYellow
         label.font = UIFont.boldSystemFont(ofSize: 26)
         return label
     }()
     
     fileprivate let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "With partner"
-        label.textColor = .subtitleColor
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.text = "with partner"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
@@ -39,7 +39,7 @@ class AllServicesHeaderCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .red
+        backgroundColor = .primary
         
         setupLayout()
     }
@@ -53,7 +53,7 @@ class AllServicesHeaderCell: UICollectionViewCell {
         
         let verticalStack = UIStackView(arrangedSubviews: [titlelabel, subtitleLabel])
         verticalStack.axis = .vertical
-        verticalStack.spacing = 8
+        verticalStack.spacing = 6
         verticalStack.alignment = .leading
         
         let horizontalStack = UIStackView(arrangedSubviews: [verticalStack, imageView])

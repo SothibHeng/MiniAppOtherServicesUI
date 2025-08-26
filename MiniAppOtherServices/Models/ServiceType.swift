@@ -72,4 +72,34 @@ extension ServiceType {
         case .aliExpress: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 140, height: 80), backgroundColor: .white)
         }
     }
+    
+    var serviceBackgroundColor: UIColor {
+        switch self {
+        case .bbc: return .bbcNew
+        case .disney: return .disney
+        case .aliExpress: return .white
+        case .coursera: return .white
+        case .duolingo: return .white
+        case .etsy: return .white
+        case .imdb: return .imbd
+        case .khanAcademy: return .white
+        case .reuters: return .reuters
+        case .twitch: return .twitch
+        }
+    }
+    
+    var logoSize: CGSize {
+        switch self {
+        case .bbc: return CGSize(width: 110, height: 110)
+        case .aliExpress: return CGSize(width: 80, height: 80)
+        case .coursera: return CGSize(width: 50, height: 50)
+        case .disney: return CGSize(width: 60, height: 60)
+        case .duolingo: return CGSize(width: 65, height: 65)
+        case .etsy: return CGSize(width: 60, height: 60)
+        case .imdb: return CGSize(width: 60, height: 60)
+        case .khanAcademy: return CGSize(width: 80, height: 80)
+        case .reuters: return CGSize(width: 60, height: 60)
+        case .twitch: return CGSize(width: 65, height: 65)
+        }
+    }
 }

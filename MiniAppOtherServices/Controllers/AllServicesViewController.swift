@@ -43,7 +43,8 @@ class AllServicesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .background
+        collectionView.showsVerticalScrollIndicator = false
         setupCollectionView()
     }
 
@@ -57,7 +58,7 @@ class AllServicesViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .background
         
         collectionView.register(AllServicesHeaderCell.self,
                                 forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
@@ -70,18 +71,7 @@ class AllServicesViewController: UIViewController {
     }
 }
 
-
 extension AllServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 0 {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 16, right: 0)
-        } else {
-            return .zero
-        }
-    }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1 + sections.count
@@ -124,13 +114,13 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
-            return CGSize(width: collectionView.frame.width, height: 180)
+            return CGSize(width: collectionView.frame.width, height: 200)
         } else {
             let sectionData = sections[indexPath.section - 1]
             let titleHeight: CGFloat = 28
             let spacingAboveItems: CGFloat = 8
             let bottomPadding: CGFloat = 16
-            let itemHeight: CGFloat = 120
+            let itemHeight: CGFloat = 80
             let spacingBetweenItems: CGFloat = 12
 
             switch sectionData.cellType {

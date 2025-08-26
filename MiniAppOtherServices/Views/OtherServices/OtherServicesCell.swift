@@ -10,11 +10,16 @@ import UIKit
 class OtherServicesCell: UICollectionViewCell {
     static let identifier = "OtherServicesCellView"
 
+    fileprivate let logoContainer: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        return view
+    }()
+
     fileprivate let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 16
-        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -27,40 +32,56 @@ class OtherServicesCell: UICollectionViewCell {
         label.minimumScaleFactor = 0.5
         return label
     }()
+    
+    fileprivate var imageWidthConstraint: NSLayoutConstraint?
+    fileprivate var imageHeightConstraint: NSLayoutConstraint?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-//        backgroundColor = .cyan
 
-        contentView.addSubview(logoImageView)
+        contentView.addSubview(logoContainer)
+        logoContainer.addSubview(logoImageView)
         contentView.addSubview(nameLabel)
-        
-        logoImageView.backgroundColor = .red
-        nameLabel.backgroundColor = .red
 
+        logoContainer.translatesAutoresizingMaskIntoConstraints = false
+        logoContainer.layer.borderWidth = 1
+        logoContainer.layer.borderColor = UIColor.lightBorder.cgColor
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
-            logoImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            logoImageView.widthAnchor.constraint(equalToConstant: 74),
-            logoImageView.heightAnchor.constraint(equalToConstant: 74),
+            logoContainer.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
+            logoContainer.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            logoContainer.widthAnchor.constraint(equalToConstant: 74),
+            logoContainer.heightAnchor.constraint(equalToConstant: 74),
 
-            nameLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 6),
+            logoImageView.centerXAnchor.constraint(equalTo: logoContainer.centerXAnchor),
+            logoImageView.centerYAnchor.constraint(equalTo: logoContainer.centerYAnchor),
+
+            nameLabel.topAnchor.constraint(equalTo: logoContainer.bottomAnchor, constant: 6),
             nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -4),
             nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16)
         ])
+
+        imageWidthConstraint = logoImageView.widthAnchor.constraint(equalToConstant: 1)
+        imageHeightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 1)
+        imageWidthConstraint?.isActive = true
+        imageHeightConstraint?.isActive = true
     }
 
     func configure(service: ServiceModel) {
         logoImageView.image = UIImage(named: service.logo)
         nameLabel.text = service.name
+        logoContainer.backgroundColor = service.backgroundColor
+        
+        imageWidthConstraint?.constant = service.logoSize.width
+        imageHeightConstraint?.constant = service.logoSize.height
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
+
+
 
