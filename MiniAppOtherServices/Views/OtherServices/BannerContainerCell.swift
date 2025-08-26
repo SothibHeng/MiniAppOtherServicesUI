@@ -5,79 +5,130 @@
 //  Created by Universe on 19/8/25.
 //
 
-
 import UIKit
 
 class BannerContainerCell: UICollectionViewCell {
     static let identifier = "BannerContainerCell"
 
-    fileprivate var data: [BannerModel] = []
-
-    fileprivate let pageControl: UIPageControl = {
-        let pageControll = UIPageControl()
-        pageControll.hidesForSinglePage = true
-        return pageControll
+    private var banners: [BannerModel] = []
+    private var pageControllers: [UIViewController] = []
+    
+    private var timer: Timer?
+    
+    private let pageControl: UIPageControl = {
+        let pc = UIPageControl()
+        pc.hidesForSinglePage = true
+        return pc
     }()
-
-    fileprivate lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.isPagingEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .clear
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.identifier)
-        return collectionView
+    
+    private lazy var pageViewController: UIPageViewController = {
+        let pvc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        pvc.dataSource = self
+        pvc.delegate = self
+        return pvc
     }()
-
+    
+    private var currentIndex = 0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .blue
-//        backgroundColor = .whiteSmoke
         
-        contentView.addSubview(collectionView)
+        contentView.addSubview(pageViewController.view)
         contentView.addSubview(pageControl)
+        pageViewController.view.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: contentView.bounds.height - 24)
+        pageControl.frame = CGRect(x: 0, y: contentView.bounds.height - 24, width: contentView.bounds.width, height: 24)
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: contentView.bounds.height - 24)
-        pageControl.frame = CGRect(x: 0, y: collectionView.frame.maxY, width: contentView.bounds.width, height: 24)
+        
+        let paddingHorizontal: CGFloat = 16
+        let paddingTop: CGFloat = 18
+        let pageControlHeight: CGFloat = 24
+        
+        let width = contentView.bounds.width - 2 * paddingHorizontal
+        let height = contentView.bounds.height - paddingTop
+        
+        pageViewController.view.frame = CGRect(
+            x: paddingHorizontal,
+            y: paddingTop,
+            width: width,
+            height: height - pageControlHeight
+        )
     }
-
+    
     func configure(with banners: [BannerModel]) {
-        self.data = banners
-        pageControl.numberOfPages = banners.count
-        pageControl.currentPage = 0
-        collectionView.contentOffset = .zero
-        collectionView.reloadData()
+        self.banners = banners
+        self.pageControllers = banners.map { BannerViewController(banner: $0) }
+        
+        pageControllers.forEach { vc in
+            if let bannerVC = vc as? BannerViewController {
+                bannerVC.pageControl.numberOfPages = banners.count
+            }
+        }
+        
+        currentIndex = 0
+        
+        if let first = pageControllers.first {
+            pageViewController.setViewControllers([first], direction: .forward, animated: true)
+        }
+        
+        updateCurrentPage()
+        startAutoSlide()
     }
 
+    private func updateCurrentPage() {
+        // Update current page indicator on visible banner
+        if let currentVC = pageViewController.viewControllers?.first as? BannerViewController {
+            currentVC.pageControl.currentPage = currentIndex
+        }
+    }
+
+    private func goToNextPage() {
+        guard !pageControllers.isEmpty else { return }
+        let nextIndex = (currentIndex + 1) % pageControllers.count
+        let nextVC = pageControllers[nextIndex]
+        pageViewController.setViewControllers([nextVC], direction: .forward, animated: true)
+        currentIndex = nextIndex
+        updateCurrentPage()
+    }
+
+    
+    private func startAutoSlide() {
+        timer?.invalidate()
+        guard banners.count > 1 else { return }
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+            self?.goToNextPage()
+        }
+    }
+    
+    deinit { timer?.invalidate() }
+    
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
 
-extension BannerContainerCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { data.count }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as! BannerCell
-        cell.configure(with: data[indexPath.item])
-        return cell
+extension BannerContainerCell: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = pageControllers.firstIndex(of: viewController) else { return nil }
+        let prevIndex = (index - 1 + pageControllers.count) % pageControllers.count
+        return pageControllers[prevIndex]
     }
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.frame.width > 0 else { return }
-        let page = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
-        pageControl.currentPage = max(0, min(page, pageControl.numberOfPages - 1))
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = pageControllers.firstIndex(of: viewController) else { return nil }
+        let nextIndex = (index + 1) % pageControllers.count
+        return pageControllers[nextIndex]
     }
-
-    func collectionView(_ collectionView: UICollectionView, layout layoutObj: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.bounds.size
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed, let currentVC = pageViewController.viewControllers?.first, let index = pageControllers.firstIndex(of: currentVC) {
+            currentIndex = index
+            pageControl.currentPage = index
+        }
     }
 }
+
 
 

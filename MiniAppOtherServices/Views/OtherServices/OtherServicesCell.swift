@@ -20,7 +20,7 @@ class OtherServicesCell: UICollectionViewCell {
 
     fileprivate let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
