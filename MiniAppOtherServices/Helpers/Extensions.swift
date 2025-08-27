@@ -46,7 +46,7 @@ extension UIColor {
     }
     
     static var primary: UIColor {
-        return UIColor(red: 31/255, green: 67/255, blue: 117/255, alpha: 1.0)
+        return UIColor(red: 23/255, green: 58/255, blue: 103/255, alpha: 1.0)
     }
     
     static var titleColor: UIColor {

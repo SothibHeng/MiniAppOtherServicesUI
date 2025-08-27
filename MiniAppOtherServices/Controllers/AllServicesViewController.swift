@@ -46,6 +46,8 @@ class AllServicesViewController: UIViewController {
         view.backgroundColor = .background
         collectionView.showsVerticalScrollIndicator = false
         setupCollectionView()
+        
+        setupCustomNavigationBar()
     }
 
     fileprivate func setupCollectionView() {
@@ -69,6 +71,53 @@ class AllServicesViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
     }
+    
+    fileprivate func setupCustomNavigationBar() {
+        let backButton = UIButton(type: .system)
+        let backImage = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
+        backButton.setImage(backImage, for: .normal)
+        backButton.tintColor = .white
+        backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            backButton.widthAnchor.constraint(equalToConstant: 18),
+            backButton.heightAnchor.constraint(equalToConstant: 18)
+        ])
+
+        let titleLabel = UILabel()
+        titleLabel.text = "Other Services"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        titleLabel.textColor = .white
+
+        let leftStack = UIStackView(arrangedSubviews: [backButton, titleLabel])
+        leftStack.axis = .horizontal
+        leftStack.spacing = 8
+        leftStack.alignment = .center
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStack)
+
+        let logoImageView = UIImageView(image: UIImage(named: "acleda_logo"))
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        logoImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: logoImageView)
+
+        if let navBar = navigationController?.navigationBar {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor.primary
+            appearance.shadowColor = .clear
+            navBar.standardAppearance = appearance
+            navBar.scrollEdgeAppearance = appearance
+            navBar.tintColor = .white
+        }
+    }
+
+    @objc fileprivate func didTapBack() {
+        navigationController?.popViewController(animated: true)
+    }
+
 }
 
 extension AllServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -114,7 +163,7 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0 {
-            return CGSize(width: collectionView.frame.width, height: 200)
+            return CGSize(width: collectionView.frame.width, height: 195)
         } else {
             let sectionData = sections[indexPath.section - 1]
             let titleHeight: CGFloat = 28

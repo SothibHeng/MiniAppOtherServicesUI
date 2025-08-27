@@ -46,7 +46,7 @@ class OtherServicesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Mini App Implementation"
+//        title = "Mini App Implementation"
         view.backgroundColor = .systemBackground
         view.addSubview(wrapCollectionView)
         navigationItem.backButtonTitle = ""
@@ -54,6 +54,8 @@ class OtherServicesViewController: UIViewController {
         view.backgroundColor = .white
         
         wrapCollectionView.backgroundColor = .white
+        
+        setupNavigationBar()
     }
 
     override func viewDidLayoutSubviews() {
@@ -65,6 +67,28 @@ class OtherServicesViewController: UIViewController {
         let webController = WebViewController(service: service)
         navigationController?.pushViewController(webController, animated: true)
     }
+    
+    fileprivate func setupNavigationBar() {
+        guard let navBar = navigationController?.navigationBar else { return }
+
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.primary
+        appearance.shadowColor = .clear
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+
+        let logoImageView = UIImageView(image: UIImage(named: "acleda"))
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+        logoImageView.heightAnchor.constraint(equalToConstant: 135).isActive = true
+        logoImageView.widthAnchor.constraint(equalToConstant: 135).isActive = true
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
+                
+        navBar.tintColor = .white
+    }
+
 }
 
 extension OtherServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -82,13 +106,13 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
 
         switch section {
         case .banner:
-            header.configure(title: "Other Services")
+            header.configure(title: "Other Servicesss", titleColor: .primary)
             header.onTap = { [weak self] in
                 let allServicesViewController = AllServicesViewController()
                 self?.navigationController?.pushViewController(allServicesViewController, animated: true)
             }
         case .services:
-            header.configure(title: "")
+            header.configure(title: "", titleColor: .primary)
             header.onTap = nil
         }
         return header
