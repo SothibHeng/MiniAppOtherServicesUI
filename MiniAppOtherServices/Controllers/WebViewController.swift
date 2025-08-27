@@ -35,11 +35,14 @@ class WebViewController: UIViewController {
         
         webView.load(URLRequest(url: url))
     }
-
+    
     fileprivate func setupNavigationBar() {
+        let foregroundColor: UIColor = service.backgroundColor.isWhite ? .black : .white
+        
         let backButton = UIButton(type: .system)
-        let backImage = UIImage(named: "back")?.withRenderingMode(.alwaysOriginal)
+        let backImage = UIImage(named: "back")?.withRenderingMode(.alwaysTemplate)
         backButton.setImage(backImage, for: .normal)
+        backButton.tintColor = foregroundColor
         backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         backButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -50,7 +53,7 @@ class WebViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.text = service.name
         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        titleLabel.textColor = .label
+        titleLabel.textColor = foregroundColor
 
         let leftStack = UIStackView(arrangedSubviews: [backButton, titleLabel])
         leftStack.axis = .horizontal
@@ -59,8 +62,9 @@ class WebViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStack)
         
         let closeButton = UIButton(type: .system)
-        let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
+        let closeImage = UIImage(named: "close")?.withRenderingMode(.alwaysTemplate)
         closeButton.setImage(closeImage, for: .normal)
+        closeButton.tintColor = foregroundColor
         closeButton.addTarget(self, action: #selector(didTapDismissConfirmation), for: .touchUpInside)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -70,7 +74,6 @@ class WebViewController: UIViewController {
         
         let container = UIView()
         container.addSubview(closeButton)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             closeButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 16),
             closeButton.topAnchor.constraint(equalTo: container.topAnchor),
@@ -79,6 +82,15 @@ class WebViewController: UIViewController {
         ])
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: container)
+        
+        if let navBar = navigationController?.navigationBar {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = service.backgroundColor
+            appearance.titleTextAttributes = [.foregroundColor: foregroundColor]
+            navBar.standardAppearance = appearance
+            navBar.scrollEdgeAppearance = appearance
+        }
     }
 
     fileprivate func setupWebView() {
