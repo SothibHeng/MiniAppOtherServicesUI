@@ -22,7 +22,12 @@ class BannerCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
+        contentView.layer.cornerRadius = 12
+        contentView.layer.borderWidth = 2
+        contentView.layer.borderColor = UIColor.lightGray.cgColor
+        contentView.layer.masksToBounds = true
+        
         contentView.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -39,7 +44,7 @@ class BannerCell: UICollectionViewCell {
 
     func configure(with model: BannerModel) {
         contentView.backgroundColor = model.backgroundColor
-        logoImageView.image = model.image
+        logoImageView.image = model.imageName
         widthConstraint?.constant = model.size.width
         heightContraint?.constant = model.size.height
         layoutIfNeeded()

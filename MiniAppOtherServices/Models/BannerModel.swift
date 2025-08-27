@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct BannerModel {
-    let image: UIImage
+    let imageName: UIImage
     let size: CGSize
     let backgroundColor: UIColor
 }

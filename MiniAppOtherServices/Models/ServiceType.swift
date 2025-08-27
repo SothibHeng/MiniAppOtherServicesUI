@@ -60,16 +60,56 @@ extension ServiceType {
     
     var banner: BannerModel {
         switch self {
-        case .bbc: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 120, height: 80), backgroundColor: .bbcNew)
-        case .disney: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 130, height: 90), backgroundColor: .disney)
-        case .duolingo: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 110, height: 110), backgroundColor: .duolingo)
-        case .imdb: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 150, height: 70), backgroundColor: .imbd)
-        case .coursera: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 110, height: 90), backgroundColor: .coursera)
-        case .khanAcademy: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 120, height: 90), backgroundColor: .khanAcedemy)
-        case .twitch: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 120, height: 100), backgroundColor: .twitch)
-        case .etsy: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 110, height: 80), backgroundColor: .white)
-        case .reuters: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 120, height: 70), backgroundColor: .reuters)
-        case .aliExpress: return BannerModel(image: UIImage(named: logo)!, size: .init(width: 140, height: 80), backgroundColor: .white)
+        case .bbc: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 220, height: 220),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .disney: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 130, height: 90),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .duolingo: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 120, height: 120),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .imdb: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 150, height: 120),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .coursera: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 110, height: 80),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .khanAcademy: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 135, height: 135),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .twitch: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 135, height: 135),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .etsy: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 120, height: 120),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .reuters: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 160, height: 160),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
+        case .aliExpress: return BannerModel(
+            imageName: UIImage(named: logo)!,
+            size: .init(width: 200, height: 200),
+            backgroundColor: UIColor(cgColor: serviceBackgroundColor.cgColor)
+        )
         }
     }
     

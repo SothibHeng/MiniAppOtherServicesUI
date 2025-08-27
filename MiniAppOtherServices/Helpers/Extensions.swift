@@ -7,8 +7,6 @@
 
 import UIKit
 
-import UIKit
-
 extension UIStackView {
     convenience init(
         arrangedSubviews: [UIView],

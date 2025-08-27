@@ -31,12 +31,19 @@ class BannerViewController: UIViewController {
         view.addSubview(imageView)
         view.addSubview(pageControl)
         
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.lightBorder.cgColor
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.currentPageIndicatorTintColor = UIColor(red: 237/255, green: 245/255, blue: 255/255, alpha: 1.0)
+        pageControl.pageIndicatorTintColor = UIColor.lightGray.withAlphaComponent(0.4)
         
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.image = banner.image
+        imageView.image = banner.imageName
         view.backgroundColor = banner.backgroundColor
         
         NSLayoutConstraint.activate([
@@ -51,8 +58,6 @@ class BannerViewController: UIViewController {
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
-        view.layer.cornerRadius = 8
-        view.clipsToBounds = true
     }
 }
 
