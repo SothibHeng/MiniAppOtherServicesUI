@@ -183,14 +183,3 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-

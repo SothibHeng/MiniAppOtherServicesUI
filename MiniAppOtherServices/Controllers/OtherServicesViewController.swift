@@ -69,14 +69,11 @@ class OtherServicesViewController: UIViewController {
     }
     
     fileprivate func setupNavigationBar() {
-        guard let navBar = navigationController?.navigationBar else { return }
+        guard let navBar = navigationController?.navigationBar.applyDefaultAppearance() else { return }
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.primary
-        appearance.shadowColor = .clear
-        navBar.standardAppearance = appearance
-        navBar.scrollEdgeAppearance = appearance
 
         let logoImageView = UIImageView(image: UIImage(named: "acleda"))
         logoImageView.contentMode = .scaleAspectFit
@@ -85,10 +82,7 @@ class OtherServicesViewController: UIViewController {
         logoImageView.widthAnchor.constraint(equalToConstant: 135).isActive = true
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoImageView)
-                
-        navBar.tintColor = .white
     }
-
 }
 
 extension OtherServicesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -171,15 +165,3 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
         return UIEdgeInsets(top: section == 0 ? 0 : 8, left: 0, bottom: 0, right: 0)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

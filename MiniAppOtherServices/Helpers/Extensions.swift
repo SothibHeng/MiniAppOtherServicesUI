@@ -7,6 +7,17 @@
 
 import UIKit
 
+extension UINavigationBar {
+    func applyDefaultAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.primary
+        self.standardAppearance = appearance
+        self.scrollEdgeAppearance = appearance
+        self.tintColor = .white
+    }
+}
+
 extension UIColor {
     var isWhite: Bool {
         var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
@@ -107,4 +118,3 @@ extension UIView {
         ])
     }
 }
-

@@ -133,9 +133,3 @@ extension BannerContainerCell: UIPageViewControllerDataSource, UIPageViewControl
         }
     }
 }
-
-
-
-
-
-

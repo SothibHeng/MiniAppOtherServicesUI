@@ -12,14 +12,14 @@ class ServiceConfirmationToggleView: UIView {
     var onConfirm: (() -> Void)?
     var onCancel: (() -> Void)?
 
-    private let container: UIView = {
+    fileprivate let container: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 12
         return view
     }()
 
-    private let logoContainer: UIView = {
+    fileprivate let logoContainer: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
@@ -28,13 +28,13 @@ class ServiceConfirmationToggleView: UIView {
         return view
     }()
 
-    private let serviceImageView: UIImageView = {
+    fileprivate let serviceImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
-    private let serviceNameLabel: UILabel = {
+    fileprivate let serviceNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textAlignment = .center
@@ -45,7 +45,7 @@ class ServiceConfirmationToggleView: UIView {
         return label
     }()
 
-    private let messageLabel: UILabel = {
+    fileprivate let messageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -56,11 +56,11 @@ class ServiceConfirmationToggleView: UIView {
         return label
     }()
 
-    private let cancelButton = ServiceConfirmationToggleView.makeButton(title: "Cancel", bgColor: .white, textColor: .titleColor, borderColor: .black)
-    private let confirmButton = ServiceConfirmationToggleView.makeButton(title: "OK", bgColor: .white, textColor: .red, borderColor: .red)
+    fileprivate let cancelButton = ServiceConfirmationToggleView.makeButton(title: "Cancel", bgColor: .white, textColor: .titleColor, borderColor: .black)
+    fileprivate let confirmButton = ServiceConfirmationToggleView.makeButton(title: "OK", bgColor: .white, textColor: .red, borderColor: .red)
 
-    private var logoWidthConstraint: NSLayoutConstraint?
-    private var logoHeightConstraint: NSLayoutConstraint?
+    fileprivate var logoWidthConstraint: NSLayoutConstraint?
+    fileprivate var logoHeightConstraint: NSLayoutConstraint?
 
     init(service: ServiceModel) {
         super.init(frame: .zero)
@@ -81,7 +81,7 @@ class ServiceConfirmationToggleView: UIView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    private func setupLayout() {
+    fileprivate func setupLayout() {
         addSubview(container)
         container.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -132,7 +132,7 @@ class ServiceConfirmationToggleView: UIView {
         ])
     }
 
-    private func setupActions() {
+    fileprivate func setupActions() {
         cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
         confirmButton.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapOutside))
@@ -161,7 +161,7 @@ class ServiceConfirmationToggleView: UIView {
         }
     }
 
-    private static func makeButton(title: String, bgColor: UIColor, textColor: UIColor, borderColor: UIColor) -> UIButton {
+    fileprivate static func makeButton(title: String, bgColor: UIColor, textColor: UIColor, borderColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.backgroundColor = bgColor
         button.setTitle(title, for: .normal)
@@ -173,5 +173,3 @@ class ServiceConfirmationToggleView: UIView {
         return button
     }
 }
-
-

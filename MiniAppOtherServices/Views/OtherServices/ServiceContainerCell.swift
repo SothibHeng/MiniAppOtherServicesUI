@@ -65,4 +65,3 @@ extension ServicesContainerCell: UICollectionViewDataSource, UICollectionViewDel
         return CGSize(width: 120, height: collectionView.bounds.height)
     }
 }
- 

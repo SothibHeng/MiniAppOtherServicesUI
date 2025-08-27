@@ -191,12 +191,3 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
         }
     }
 }
-
-
-
-
-
-
-
-
-

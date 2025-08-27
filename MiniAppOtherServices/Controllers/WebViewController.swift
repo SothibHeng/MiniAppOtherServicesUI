@@ -14,7 +14,7 @@ class WebViewController: UIViewController {
     fileprivate var url: URL
     fileprivate var service: ServiceModel
 
-    private var progressView: UIProgressView!
+    fileprivate var progressView: UIProgressView!
 
     init(service: ServiceModel) {
         self.service = service
@@ -30,14 +30,22 @@ class WebViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
 
-        setupNavigationBar()
+        setupNavigationBarCustom()
         setupWebView()
         setupProgressView()
         
         webView.load(URLRequest(url: url))
     }
     
-    fileprivate func setupNavigationBar() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent || self.isBeingDismissed {
+            navigationController?.navigationBar.applyDefaultAppearance()
+        }
+    }
+    
+    fileprivate func setupNavigationBarCustom() {
         let foregroundColor: UIColor = service.backgroundColor.isWhite ? .black : .white
         
         let backButton = UIButton(type: .system)
@@ -166,12 +174,3 @@ class WebViewController: UIViewController {
 }
 
 extension WebViewController: WKNavigationDelegate {}
-
-
-
-
-
-
-
-
-

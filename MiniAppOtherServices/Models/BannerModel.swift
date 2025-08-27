@@ -13,4 +13,3 @@ struct BannerModel {
     let size: CGSize
     let backgroundColor: UIColor
 }
-
