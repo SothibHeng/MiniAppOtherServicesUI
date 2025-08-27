@@ -15,7 +15,7 @@ enum ServiceType: CaseIterable {
 extension ServiceType {
     var name: String {
         switch self {
-        case .bbc: return "BBC News"
+        case .bbc: return "BBC New, In quantum mechanics, particles can exist in many possible states until observed."
         case .disney: return "Disney"
         case .duolingo: return "Duolingo"
         case .imdb: return "IMDB"

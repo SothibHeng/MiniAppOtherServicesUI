@@ -25,15 +25,17 @@ class HorizontalOtherServicesCell: UICollectionViewCell {
         return imageView
     }()
 
-    fileprivate let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+    fileprivate let nameLabel: MarqueeLabel = {
+        let label = MarqueeLabel(frame: .zero, duration: 16.0, fadeLength: 10.0)
+        label.font = .systemFont(ofSize: 16.5, weight: .bold)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.type = .continuous
+        label.leadingBuffer = 5
+        label.trailingBuffer = 5
         return label
     }()
-
+    
     fileprivate var imageWidthConstraint: NSLayoutConstraint?
     fileprivate var imageHeightConstraint: NSLayoutConstraint?
 
@@ -58,7 +60,7 @@ class HorizontalOtherServicesCell: UICollectionViewCell {
         imageHeightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 1)
         imageWidthConstraint?.isActive = true
         imageHeightConstraint?.isActive = true
-
+        
         NSLayoutConstraint.activate([
             logoContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 6),
             logoContainer.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -70,7 +72,8 @@ class HorizontalOtherServicesCell: UICollectionViewCell {
 
             nameLabel.leadingAnchor.constraint(equalTo: logoContainer.trailingAnchor, constant: 8),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
-            nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nameLabel.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 
@@ -94,5 +97,6 @@ class HorizontalOtherServicesCell: UICollectionViewCell {
 
         layoutIfNeeded()
     }
+
 }
 

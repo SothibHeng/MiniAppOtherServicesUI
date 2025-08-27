@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 
 class WebViewController: UIViewController {
+    
     fileprivate var webView: WKWebView!
     fileprivate var url: URL
     fileprivate var service: ServiceModel
@@ -50,7 +51,7 @@ class WebViewController: UIViewController {
             backButton.heightAnchor.constraint(equalToConstant: 18)
         ])
 
-        let titleLabel = UILabel()
+        let titleLabel = MarqueeLabel(frame: CGRect(x: 0, y: 0, width: 180, height: 20), duration: 16.0, fadeLength: 10.0)
         titleLabel.text = service.name
         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         titleLabel.textColor = foregroundColor
