@@ -18,98 +18,49 @@ struct ServiceSection {
     let cellType: ServiceCellType
 }
 
-class AllServiceSectionCell: UICollectionViewCell {
-    static let identifier = "AllServiceSectionCell"
-    
-    var onSelectService: ((ServiceModel) -> Void)?
-
-    fileprivate let sectionBackground: UIView = {
+final class AllServiceSectionCell: UICollectionViewCell {
+    let sectionBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .background
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    fileprivate let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .titleColor
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    fileprivate let itemsCollectionView: UICollectionView = {
+    lazy var itemsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 12
+        layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 0
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.isScrollEnabled = false 
-        return cv
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.layer.cornerRadius = 16
+        collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .white
+        collectionView.register(OtherServicesCell.self)
+        collectionView.register(HorizontalOtherServicesCell.self)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
 
-    fileprivate var services: [ServiceModel] = []
-    fileprivate var cellType: ServiceCellType = .vertical
-    fileprivate var shouldRoundTopOnly = false
+    private var shouldRoundTopOnly = false
+    private var services: [ServiceModel] = []
+    private var cellType: ServiceCellType = .vertical
+    
+    var onSelectService: ((ServiceModel) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        backgroundColor = .primary
-
-        contentView.addSubview(sectionBackground)
-        sectionBackground.addSubview(titleLabel)
-        sectionBackground.addSubview(itemsCollectionView)
-
-        NSLayoutConstraint.activate([
-            sectionBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
-            sectionBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            sectionBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            sectionBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-
-            titleLabel.topAnchor.constraint(equalTo: sectionBackground.topAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: sectionBackground.leadingAnchor, constant: 16),
-
-            itemsCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            itemsCollectionView.leadingAnchor.constraint(equalTo: sectionBackground.leadingAnchor, constant: 16),
-            itemsCollectionView.trailingAnchor.constraint(equalTo: sectionBackground.trailingAnchor, constant: -16),
-            itemsCollectionView.bottomAnchor.constraint(equalTo: sectionBackground.bottomAnchor, constant: -16),
-        ])
-
-        itemsCollectionView.backgroundColor = .white
-        itemsCollectionView.layer.cornerRadius = 16
-        itemsCollectionView.register(OtherServicesCell.self, forCellWithReuseIdentifier: OtherServicesCell.identifier)
-        itemsCollectionView.register(HorizontalOtherServicesCell.self, forCellWithReuseIdentifier: HorizontalOtherServicesCell.identifier)
-        itemsCollectionView.dataSource = self
-        itemsCollectionView.delegate = self
-    }
-
-    func configure(title: String, services: [ServiceModel], cellType: ServiceCellType) {
-        self.titleLabel.text = title
-        self.services = services
-        self.cellType = cellType
-        self.shouldRoundTopOnly = (title == "Recently")
-        itemsCollectionView.reloadData()
-        
-        if title == "Recently" {
-            itemsCollectionView.backgroundColor = .white
-            itemsCollectionView.layer.shadowColor = UIColor.subtitleColor.cgColor
-            itemsCollectionView.layer.shadowOpacity = 0.1
-            itemsCollectionView.layer.shadowOffset = CGSize(width: 0, height: 2)
-            itemsCollectionView.layer.shadowRadius = 4
-            itemsCollectionView.layer.masksToBounds = false
-        } else {
-            itemsCollectionView.backgroundColor = .clear
-        }
-
-        if let flow = itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flow.scrollDirection = (cellType == .horizontal) ? .vertical : .vertical
-            flow.minimumLineSpacing = 12
-            flow.minimumInteritemSpacing = 0
-        }
-
-        setNeedsLayout()
+        setupViews()
     }
 
     override func layoutSubviews() {
@@ -160,12 +111,15 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
         let service = services[indexPath.item]
         switch cellType {
         case .vertical:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherServicesCell.identifier, for: indexPath) as! OtherServicesCell
+            let cell = collectionView.dequeue(OtherServicesCell.self, for: indexPath)
             cell.configure(service: service)
+            
             return cell
+            
         case .horizontal:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalOtherServicesCell.identifier, for: indexPath) as! HorizontalOtherServicesCell
+            let cell = collectionView.dequeue(HorizontalOtherServicesCell.self, for: indexPath)
             cell.configure(service: service)
+            
             return cell
         }
     }
@@ -181,5 +135,63 @@ extension AllServiceSectionCell: UICollectionViewDataSource, UICollectionViewDel
             let width = collectionView.frame.width
             return CGSize(width: width, height: 100)
         }
+    }
+}
+
+extension AllServiceSectionCell {
+    func setupViews() {
+        backgroundColor = .primary
+        
+        contentView.addSubview(sectionBackground)
+        sectionBackground.addSubview(titleLabel)
+        sectionBackground.addSubview(itemsCollectionView)
+        
+        NSLayoutConstraint.activate([
+            sectionBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
+            sectionBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            sectionBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            sectionBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: sectionBackground.topAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: sectionBackground.leadingAnchor, constant: 16),
+            
+            itemsCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            itemsCollectionView.bottomAnchor.constraint(equalTo: sectionBackground.bottomAnchor, constant: -16),
+            itemsCollectionView.leadingAnchor.constraint(equalTo: sectionBackground.leadingAnchor, constant: 16),
+            itemsCollectionView.trailingAnchor.constraint(equalTo: sectionBackground.trailingAnchor, constant: -16),
+        ])
+    }
+    
+    func configure(title: String, services: [ServiceModel], cellType: ServiceCellType) {
+        self.titleLabel.text = title
+        self.services = services
+        self.cellType = cellType
+        self.shouldRoundTopOnly = (title == "Recently")
+        itemsCollectionView.reloadData()
+        
+        if title == "Recently" {
+            itemsCollectionView.backgroundColor = .white
+            itemsCollectionView.layer.shadowColor = UIColor.subtitleColor.cgColor
+            itemsCollectionView.layer.shadowOpacity = 0.1
+            itemsCollectionView.layer.shadowOffset = CGSize(width: 0, height: 2)
+            itemsCollectionView.layer.shadowRadius = 4
+            itemsCollectionView.layer.masksToBounds = false
+        } else {
+            itemsCollectionView.backgroundColor = .clear
+        }
+        
+        if let flow = itemsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flow.scrollDirection = (cellType == .horizontal) ? .vertical : .vertical
+            flow.minimumLineSpacing = 12
+            flow.minimumInteritemSpacing = 0
+        }
+        
+        if title == "Recently" {
+            itemsCollectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        } else {
+            itemsCollectionView.contentInset = .zero
+        }
+        
+        setNeedsLayout()
     }
 }

@@ -11,6 +11,7 @@ class ServicesContainerCell: UICollectionViewCell {
     static let identifier = "ServicesContainerCell"
 
     var onSelectService: ((ServiceModel) -> Void)?
+    var onTapViewAll: (() -> Void)?
 
     fileprivate var data: [ServiceModel] = []
 
@@ -49,16 +50,27 @@ class ServicesContainerCell: UICollectionViewCell {
 }
 
 extension ServicesContainerCell: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { data.count }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        data.count + 1
+    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherServicesCell.identifier, for: indexPath) as! OtherServicesCell
-        cell.configure(service: data[indexPath.item])
+        if indexPath.item < data.count {
+                cell.configure(service: data[indexPath.item])
+        } else {
+            cell.viewAllButton()
+        }
+        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        onSelectService?(data[indexPath.item])
+        if indexPath.item < data.count {
+            onSelectService?(data[indexPath.item])
+        } else {
+            onTapViewAll?()
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout layoutObj: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

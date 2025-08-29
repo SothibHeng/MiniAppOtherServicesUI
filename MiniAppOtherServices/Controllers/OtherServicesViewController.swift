@@ -46,7 +46,6 @@ class OtherServicesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        title = "Mini App Implementation"
         view.backgroundColor = .systemBackground
         view.addSubview(wrapCollectionView)
         navigationItem.backButtonTitle = ""
@@ -103,6 +102,7 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
             header.configure(title: "Other Servicesss", titleColor: .primary)
             header.onTap = { [weak self] in
                 let allServicesViewController = AllServicesViewController()
+//                let allServicesViewController = ACLEDAHomeOtherServiceViewController()
                 self?.navigationController?.pushViewController(allServicesViewController, animated: true)
             }
         case .services:
@@ -146,6 +146,10 @@ extension OtherServicesViewController: UICollectionViewDataSource, UICollectionV
             cell.configure(with: services)
             cell.onSelectService = { [weak self] service in
                 self?.showService(service)
+            }
+            cell.onTapViewAll = { [weak self] in
+                let allServicesViewController = AllServicesViewController()
+                self?.navigationController?.pushViewController(allServicesViewController, animated: true)
             }
             return cell
         }

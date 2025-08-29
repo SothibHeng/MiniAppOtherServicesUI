@@ -82,3 +82,13 @@ class OtherServicesCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
+
+extension OtherServicesCell {
+    func viewAllButton(title: String = "View All", logoName: String = "viewAll") {
+        nameLabel.text = title
+        logoImageView.image = UIImage(named: logoName)
+        logoContainer.backgroundColor = .white
+        imageWidthConstraint?.constant = 30
+        imageHeightConstraint?.constant = 30
+    }
+}

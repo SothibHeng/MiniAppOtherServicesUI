@@ -61,12 +61,8 @@ class AllServicesViewController: UIViewController {
         ])
         
         collectionView.backgroundColor = .background
-        
-        collectionView.register(AllServicesHeaderCell.self,
-                                forCellWithReuseIdentifier: AllServicesHeaderCell.identifier)
-        
-        collectionView.register(AllServiceSectionCell.self,
-                                forCellWithReuseIdentifier: AllServiceSectionCell.identifier)
+        collectionView.register(AllServicesHeaderCell.self)
+        collectionView.register(AllServiceSectionCell.self)
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -145,10 +141,13 @@ extension AllServicesViewController: UICollectionViewDataSource, UICollectionVie
             return cell
         } else {
             let sectionData = sections[indexPath.section - 1]
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: AllServiceSectionCell.identifier,
-                for: indexPath
-            ) as! AllServiceSectionCell
+//            let cell = collectionView.dequeueReusableCell(
+//                withReuseIdentifier: AllServiceSectionCell.identifier,
+//                for: indexPath
+//            ) as! AllServiceSectionCell
+            
+            let cell = collectionView.dequeue(AllServiceSectionCell.self, for: indexPath)
+            
             cell.configure(title: sectionData.title,
                            services: sectionData.services,
                            cellType: sectionData.cellType)
